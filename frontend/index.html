@@ -1,0 +1,2257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Multimodal Attendance & Engagement Agent - Privacy-Preserving Classroom Intelligence System">
+  <title>NeuroClass • Multimodal Attendance & Engagement Agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Navigation Bar -->
+    <header class="top-nav glass-panel">
+      <div class="brand-section">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="brand-info">
+          <h1>NeuroClass <span class="badge-tag">AI Agent</span></h1>
+          <p class="subtitle">Multimodal Attendance & Engagement Intelligence • 100% Offline Edge</p>
+        </div>
+      </div>
+
+      <div class="session-meta-group">
+        <div class="meta-pill" id="sessionPill">
+          <span class="status-dot pulsing"></span>
+          <span id="sessionLabel">Session: Active</span>
+          <span class="pill-divider">|</span>
+          <span id="sessionTimer">00:00</span>
+        </div>
+        <div class="meta-pill security-pill" id="privacyPill" title="Offline privacy guarantee: Biometric data stays on device">
+          <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <span id="privacyStatusText">100% Offline Edge Shield</span>
+        </div>
+      </div>
+
+      <div class="nav-controls">
+        <!-- Prominent Architecture & Instructions Button -->
+        <button id="openArchitectureBtn" onclick="window.neuroApp && window.neuroApp.openArchitectureModal()" class="btn btn-accent-glow" title="View Technical Architecture Diagram and 15 Project Instructions">
+          <span class="btn-icon">🏛️</span> Architecture & 15 Instructions
+        </button>
+
+        <!-- Attendance Logs Drawer Button -->
+        <button id="openLogsBtn" onclick="window.neuroApp && window.neuroApp.openLogsModal()" class="btn btn-secondary" title="View timestamped attendance logs with SHA-256 hashes">
+          <span class="btn-icon">📋</span> Attendance Logs
+        </button>
+
+        <!-- Fusion & Thresholds Button -->
+        <button id="openFusionBtn" onclick="window.neuroApp && window.neuroApp.openFusionModal()" class="btn btn-secondary" title="Adjust Multimodal Fusion weights & sustained presence thresholds">
+          <span class="btn-icon">🎛️</span> Fusion & Logic
+        </button>
+
+        <!-- Storage Explorer Button -->
+        <button id="openStorageBtn" onclick="window.neuroApp && window.neuroApp.openStorageModal()" class="btn btn-secondary" title="Explore Generated Audio, Generated Code, and Uploaded Files">
+          <span class="btn-icon">📁</span> Storage Layer
+        </button>
+
+        <!-- Live Tests Runner Button -->
+        <button id="openTestsBtn" onclick="window.neuroApp && window.neuroApp.openTestsModal()" class="btn btn-emerald" title="Run System Evaluation & Verification Test Suite">
+          <span class="btn-icon">🧪</span> Run Tests
+        </button>
+
+        <!-- Activity Explorer Dropdown Menu (Consolidating Activities 3.2 - 6.1) -->
+        <div class="dropdown-wrapper" id="activityDropdownWrapper">
+          <button id="activityDropdownBtn" class="btn btn-secondary dropdown-toggle" onclick="window.neuroApp && window.neuroApp.toggleActivityDropdown()" title="Explore Epic & Activity Modules">
+            <span class="btn-icon">🔬</span> Activity Explorer <span class="caret">▾</span>
+          </button>
+          <div class="dropdown-menu glass-panel" id="activityDropdownMenu" style="display: none;">
+            <a href="javascript:void(0)" class="dropdown-item" onclick="window.neuroApp && window.neuroApp.openAudioAnalysisModal()">
+              <span>🎙️</span> Activity 3.2: Noise &amp; Speech Telemetry
+            </a>
+            <a href="javascript:void(0)" class="dropdown-item" onclick="window.neuroApp && window.neuroApp.openMultimodalAgentModal()">
+              <span>🤖</span> Activity 4.1: Multimodal Reasoner Agent
+            </a>
+            <a href="javascript:void(0)" class="dropdown-item" onclick="window.neuroApp && window.neuroApp.openFusionActivityModal()">
+              <span>🎛️</span> Activity 4.2: Multimodal Signal Fusion
+            </a>
+            <a href="javascript:void(0)" class="dropdown-item" onclick="window.neuroApp && window.neuroApp.openScoringActivityModal()">
+              <span>📈</span> Activity 4.3: Dynamic Engagement Scoring
+            </a>
+            <a href="javascript:void(0)" class="dropdown-item" onclick="window.neuroApp && window.neuroApp.openRecommendationsModal()">
+              <span>💡</span> Activity 5.1: Teaching Suggestion Profiles
+            </a>
+            <a href="javascript:void(0)" class="dropdown-item" onclick="window.neuroApp && window.neuroApp.openStudentAnalyticsModal()">
+              <span>🎓</span> Activity 5.2: Student Session Analytics
+            </a>
+            <div class="dropdown-divider"></div>
+            <a href="javascript:void(0)" class="dropdown-item highlight-item" onclick="window.neuroApp && window.neuroApp.openCoreAppModal()">
+              <span>⚡</span> Activity 6.1: Run Core App &amp; Pipeline Verification
+            </a>
+          </div>
+        </div>
+
+        <div class="control-item">
+          <label for="videoSourceSelect">Video Feed:</label>
+          <select id="videoSourceSelect" class="styled-select">
+            <option value="simulated">Smart Classroom Simulator</option>
+            <option value="file">Pre-Recorded Video (classroom_lecture_sample.mp4)</option>
+            <option value="webcam">Live Webcam Feed</option>
+          </select>
+        </div>
+
+        <div class="control-item">
+          <label for="audioSourceSelect">Audio Input:</label>
+          <select id="audioSourceSelect" class="styled-select">
+            <option value="simulated">Simulated Acoustics</option>
+            <option value="live_mic">Live Web Microphone</option>
+          </select>
+        </div>
+
+        <button id="togglePrivacyBtn" class="btn btn-secondary" title="Toggle facial privacy blur">
+          <span class="btn-icon">👁️</span> <span id="privacyBtnText">Privacy Blur ON</span>
+        </button>
+
+        <button id="exportCsvBtn" class="btn btn-primary" title="Export signed CSV attendance report">
+          <span class="btn-icon">📥</span> Export CSV
+        </button>
+
+        <button id="resetSessionBtn" class="btn btn-ghost" title="Reset session state">
+          <span class="btn-icon">🔄</span> Reset
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Intelligence Grid -->
+    <main class="dashboard-grid">
+      <!-- Row 1: KPI Metrics Ribbon -->
+      <section class="kpi-ribbon" aria-label="Key Performance Indicators">
+        <!-- KPI 1: Overall Engagement -->
+        <div class="kpi-card glass-panel" id="kpiEngagement">
+          <div class="kpi-header">
+            <span class="kpi-title">Classroom Engagement</span>
+            <span class="kpi-trend" id="engagementTrendBadge">Stable</span>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-metric-group">
+              <span class="kpi-number" id="engagementIndexValue">78%</span>
+              <span class="kpi-unit">Composite Index</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-bar" id="engagementProgressBar" style="width: 78%;"></div>
+            </div>
+          </div>
+          <div class="kpi-footer">
+            <span class="subtext">Instruction 11: Dynamic EI (0-100%) • 5s Epochs</span>
+          </div>
+        </div>
+
+        <!-- KPI 2: Visual Attention -->
+        <div class="kpi-card glass-panel" id="kpiVisual">
+          <div class="kpi-header">
+            <span class="kpi-title">Visual Focus Rate</span>
+            <span class="pill-chip" id="visualFocusChip">Frontal Board</span>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-metric-group">
+              <span class="kpi-number" id="visualAttentionValue">85%</span>
+              <span class="kpi-unit">Attentive Head Pose</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-bar progress-cyan" id="visualProgressBar" style="width: 85%;"></div>
+            </div>
+          </div>
+          <div class="kpi-footer">
+            <span class="subtext" id="dormantCountSubtext">Instruction 8: Yaw/Pitch &amp; Inactivity Active</span>
+          </div>
+        </div>
+
+        <!-- KPI 3: Acoustic Dynamics -->
+        <div class="kpi-card glass-panel" id="kpiAcoustic">
+          <div class="kpi-header">
+            <span class="kpi-title">Acoustic Rhythm</span>
+            <span class="vad-indicator" id="vadStatusIndicator">
+              <span class="vad-wave"></span><span class="vad-wave"></span><span class="vad-wave"></span>
+            </span>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-metric-group">
+              <span class="kpi-text-value" id="acousticRhythmValue">Lecture Monologue</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-bar progress-amber" id="audioEnergyBar" style="width: 45%;"></div>
+            </div>
+          </div>
+          <div class="kpi-footer">
+            <span class="subtext" id="monologueDurationSubtext">Instruction 9: Acoustic VAD • Zero Transcription</span>
+          </div>
+        </div>
+
+        <!-- KPI 4: Sustained Attendance -->
+        <div class="kpi-card glass-panel" id="kpiAttendance">
+          <div class="kpi-header">
+            <span class="kpi-title">Sustained Attendance</span>
+            <span class="badge-present" id="attendanceRateBadge">100% Present</span>
+          </div>
+          <div class="kpi-body">
+            <div class="kpi-metric-group">
+              <span class="kpi-number" id="presentRatioValue">8 / 8</span>
+              <span class="kpi-unit">Verified Learners</span>
+            </div>
+            <div class="progress-track">
+              <div class="progress-bar progress-emerald" id="attendanceProgressBar" style="width: 100%;"></div>
+            </div>
+          </div>
+          <div class="kpi-footer">
+            <span class="subtext" id="walkbyFilterSubtext">Instructions 5, 6: Walk-by Filter Active</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Center-Left: Video Monitor & Real-Time Waveform -->
+      <section class="visual-center-column">
+        <!-- Live Video Monitor Panel -->
+        <div class="panel glass-panel video-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h2>Live Intelligence Monitor</h2>
+              <span class="fps-badge" id="fpsBadge">15 FPS • Edge</span>
+            </div>
+            <div class="monitor-tags">
+              <span class="tag tag-privacy" id="blurIndicatorTag">Privacy Blur: ON</span>
+              <span class="tag tag-filter" id="sustainedTag">Sustained Filter: Active</span>
+              <span class="tag tag-audio" id="audioModeTag">Audio: Simulated</span>
+            </div>
+          </div>
+          <div class="video-container" id="videoContainer">
+            <img id="classroomStream" src="/api/video_feed" alt="Classroom Video Stream" class="video-feed" />
+            <div class="privacy-overlay" id="privacyWatermark">
+              <span>🔒 Offline Privacy Mode Active • Face Pixels Obfuscated</span>
+            </div>
+          </div>
+          <div class="video-action-bar">
+            <div class="video-legend">
+              <span class="legend-item"><span class="legend-dot dot-attentive"></span> Attentive Face</span>
+              <span class="legend-item"><span class="legend-dot dot-distracted"></span> Diverted / Notes</span>
+              <span class="legend-item"><span class="legend-dot dot-walkby"></span> Walk-By Transient (Ignored)</span>
+            </div>
+            <div class="quick-tools">
+              <button id="quickTtsBtn" class="btn btn-sm btn-ghost" title="Synthesize Voice Chime Alert">
+                <span>🔊 Voice Alert</span>
+              </button>
+              <button id="quickVisualAidBtn" class="btn btn-sm btn-ghost" title="Generate Gemini Concept Aid Diagram">
+                <span>🖼️ Visual Aid</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Real-Time Telemetry Timeline Waveform -->
+        <div class="panel glass-panel timeline-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h2>Real-Time Engagement Timeline</h2>
+              <span class="subtext">Multimodal Waveforms (Instruction 10, 11: Past 60 Epochs)</span>
+            </div>
+            <div class="chart-legend">
+              <span class="legend-item"><span class="legend-line line-engagement"></span> Engagement Index %</span>
+              <span class="legend-item"><span class="legend-line line-visual"></span> Visual Attention %</span>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="engagementCanvas" width="720" height="180"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: AI Pedagogical Agent & Attendance Roster -->
+      <aside class="intelligence-right-column">
+        <!-- AI Pedagogical Suggestion Panel (Instruction 12, AI Service Layer) -->
+        <div class="panel glass-panel agent-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <div class="agent-avatar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2a4 4 0 0 1 4 4c0 .5-.1 1-.3 1.5l1.8 1.8A7 7 0 0 1 19 14v1a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-1c0-1.8.7-3.5 1.9-4.8l1.8-1.7c-.2-.5-.3-1-.3-1.5a4 4 0 0 1 4-4z"/>
+                  <path d="M9 18v2a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-2"/>
+                </svg>
+              </div>
+              <div>
+                <h2>AI Teaching Assistant</h2>
+                <span class="subtext">Google Gemini 2.0 Flash &amp; Heuristic Reasoner</span>
+              </div>
+            </div>
+            <span class="agent-status-badge">Reasoner Active</span>
+          </div>
+
+          <!-- Direct AI Trigger Action Bar -->
+          <div class="agent-action-bar">
+            <button id="triggerGeminiBtn" class="btn btn-sm btn-accent-glow" title="Generate an AI Pedagogical Suggestion right now">
+              ✨ Ask Gemini 2.0 Flash
+            </button>
+            <button id="triggerTtsAlertBtn" class="btn btn-sm btn-secondary" title="Synthesize Voice Chime Alert">
+              🔊 TTS Alert
+            </button>
+            <button id="triggerVisualAidModalBtn" class="btn btn-sm btn-secondary" title="Synthesize Visual Aid Diagram">
+              🖼️ Concept Diagram
+            </button>
+          </div>
+
+          <div class="agent-feed" id="agentFeed">
+            <!-- Dynamic Suggestion Cards will be rendered here -->
+            <div class="suggestion-card card-info" id="initialSuggestion">
+              <div class="suggestion-header">
+                <span class="badge-level level-info">INITIALIZED</span>
+                <span class="suggestion-time">Just now</span>
+              </div>
+              <h3 class="suggestion-title">Classroom System Ready</h3>
+              <p class="suggestion-reason">Monitoring classroom acoustics and head pose dynamics in privacy-preserving mode.</p>
+              <div class="suggestion-action">
+                <strong>Pedagogical Suggestion:</strong> Maintain current pacing. Agent will notify if engagement drops or lecture monologue exceeds 12 minutes.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sustained Attendance Roster Board (Instructions 5, 6, 7) -->
+        <div class="panel glass-panel roster-panel">
+          <div class="panel-header">
+            <div class="panel-title-group">
+              <h2>Attendance Audit Roster</h2>
+              <span class="subtext">Instruction 6: Sustained Presence Temporal Filter</span>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <button id="viewLogsRosterBtn" class="btn btn-xs btn-ghost" title="View timestamped hashes">Hashes</button>
+              <span class="count-pill" id="rosterCountPill">8 Enrolled</span>
+            </div>
+          </div>
+
+          <div class="roster-table-wrapper">
+            <table class="roster-table">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Seat</th>
+                  <th>Active Time</th>
+                  <th>Presence %</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="rosterTableBody">
+                <!-- Roster rows will be injected by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Footer System Status -->
+    <footer class="system-footer glass-panel">
+      <div class="footer-left">
+        <span class="footer-item">⚡ <strong>Architecture:</strong> 4-Layer Edge (Frontend, AI Service, Storage, Utility)</span>
+        <span class="footer-divider">•</span>
+        <span class="footer-item">🛡️ <strong>Zero Cloud Egress:</strong> 100% Offline Certified</span>
+        <span class="footer-divider">•</span>
+        <span class="footer-item">📊 <strong>DB:</strong> SQLite Ephemeral Audit Store</span>
+        <span class="footer-divider">•</span>
+        <span class="footer-item">📋 <strong>Instructions:</strong> 15/15 Active &amp; Verified</span>
+      </div>
+      <div class="footer-right">
+        <span>SmartBridge AI Classroom Suite v1.0.0</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ==================== MODALS & DRAWERS ==================== -->
+
+  <!-- MODAL 1: Technical Architecture & 15 Instructions Explorer -->
+  <div class="modal-backdrop" id="architectureModal" style="display: none;">
+    <div class="modal-dialog glass-panel modal-xl">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h2>Technical Architecture &amp; 15 Instructions Specification</h2>
+          <p class="subtext">System Workflow, Layer Decomposition &amp; Functional Traceability</p>
+        </div>
+        <button class="modal-close-btn" id="closeArchitectureModal" onclick="window.neuroApp && window.neuroApp.closeArchitectureModal()">&times;</button>
+      </div>
+
+      <div class="modal-tabs">
+        <button class="tab-btn active" id="tabArchDiagram">🏛️ Technical Architecture Diagram</button>
+        <button class="tab-btn" id="tabInstructionsList">📋 15 Project Instructions Tracker</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Architecture Diagram Tab Content -->
+        <div id="archDiagramView" class="tab-content active">
+          <div class="arch-canvas-container">
+            <!-- 4-Layer Architectural Visual Representation -->
+            <div class="arch-layer-grid">
+              <!-- Box 1: Frontend Layer -->
+              <div class="arch-card layer-frontend">
+                <div class="arch-card-header">
+                  <span class="layer-dot dot-cyan"></span>
+                  <h3>Frontend Layer</h3>
+                </div>
+                <div class="arch-components-flow">
+                  <div class="arch-node">HTML5 Templates</div>
+                  <div class="arch-node">CSS3 Styling (Neon Glassmorphic)</div>
+                  <div class="arch-node">JavaScript Controllers (app.js)</div>
+                  <div class="arch-node-group">
+                    <div class="arch-subnode">Web Browser</div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-subnode">FastAPI / Route Handlers</div>
+                  </div>
+                  <div class="arch-node-row">
+                    <span class="arch-chip">GenAI Utils</span>
+                    <span class="arch-chip">Audio Utils</span>
+                    <span class="arch-chip">Code Executor</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Box 2: AI Service Layer -->
+              <div class="arch-card layer-ai">
+                <div class="arch-card-header">
+                  <span class="layer-dot dot-purple"></span>
+                  <h3>AI Service Layer</h3>
+                </div>
+                <div class="arch-components-flow">
+                  <div class="arch-node highlight-ai">
+                    <strong>Google Gemini 2.0 Flash</strong>
+                    <p class="node-desc">Pedagogical Decision Engine &amp; Intervention Generator</p>
+                  </div>
+                  <div class="arch-node">
+                    <strong>Gemini Image &amp; Diagram Generation</strong>
+                    <p class="node-desc">SVG Concept Visual Aid Synthesizer</p>
+                  </div>
+                  <div class="arch-node">
+                    <strong>Text-to-Speech Engine</strong>
+                    <p class="node-desc">Synthesizes voice/chime alerts to storage/audio/</p>
+                  </div>
+                  <div class="arch-node">
+                    <strong>Code Generation Engine</strong>
+                    <p class="node-desc">Synthesizes Python audit scripts to storage/code/</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Box 3: Storage Layer -->
+              <div class="arch-card layer-storage">
+                <div class="arch-card-header">
+                  <span class="layer-dot dot-emerald"></span>
+                  <h3>Storage Layer</h3>
+                </div>
+                <div class="arch-components-flow">
+                  <div class="arch-node">
+                    <strong>Generated Audio Files</strong>
+                    <p class="node-desc"><code>storage/audio/*.wav</code></p>
+                  </div>
+                  <div class="arch-node">
+                    <strong>Generated Code Files</strong>
+                    <p class="node-desc"><code>storage/code/*.py</code></p>
+                  </div>
+                  <div class="arch-node">
+                    <strong>Storage Layer / SQLite DB</strong>
+                    <p class="node-desc"><code>classroom_intelligence.db</code> (Zero Cloud Egress)</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Box 4: Utility Layer -->
+              <div class="arch-card layer-utility">
+                <div class="arch-card-header">
+                  <span class="layer-dot dot-amber"></span>
+                  <h3>Utility Layer</h3>
+                </div>
+                <div class="arch-components-flow">
+                  <div class="arch-node">
+                    <strong>Uploaded Files</strong>
+                    <p class="node-desc"><code>storage/uploads/</code> (Video recordings &amp; datasets)</p>
+                  </div>
+                  <div class="arch-node">
+                    <strong>Local Browser Storage</strong>
+                    <p class="node-desc">Client telemetry cache &amp; instructor preferences</p>
+                  </div>
+                  <div class="arch-node">
+                    <strong>Edge Privacy Guard</strong>
+                    <p class="node-desc">Gaussian face blur &amp; Salted SHA-256 pseudonym hash</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 15 Instructions Tracker Tab Content -->
+        <div id="instructionsListView" class="tab-content" style="display: none;">
+          <div class="instructions-table-wrapper">
+            <table class="instructions-table">
+              <thead>
+                <tr>
+                  <th style="width: 40px;">#</th>
+                  <th>Instruction Objective</th>
+                  <th>Domain &amp; Component</th>
+                  <th>Live System Status</th>
+                  <th>Verification Metric</th>
+                </tr>
+              </thead>
+              <tbody id="instructionsTableBody">
+                <!-- Injected via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: Timestamped Attendance Logs & SHA-256 Hashes (Instruction 7) -->
+  <div class="modal-backdrop" id="logsModal" style="display: none;">
+    <div class="modal-dialog glass-panel modal-lg">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h2>Timestamped Attendance Registry &amp; Integrity Logs</h2>
+          <p class="subtext">Instruction 7: Verifiable Check-in Timestamps &amp; SHA-256 Cryptographic Hashes</p>
+        </div>
+        <button class="modal-close-btn" id="closeLogsModal" onclick="window.neuroApp && window.neuroApp.closeLogsModal()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-toolbar">
+          <span class="subtext" id="logsTotalCount">Loading records...</span>
+          <div style="display: flex; gap: 8px;">
+            <button id="downloadCsvModalBtn" class="btn btn-sm btn-primary">📥 Export CSV</button>
+            <button id="downloadJsonModalBtn" class="btn btn-sm btn-secondary">📥 Export JSON</button>
+          </div>
+        </div>
+        <div class="logs-table-wrapper">
+          <table class="logs-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Learner Name</th>
+                <th>First Seen</th>
+                <th>Last Seen</th>
+                <th>Active Duration</th>
+                <th>Presence %</th>
+                <th>Status</th>
+                <th>SHA-256 Signature</th>
+              </tr>
+            </thead>
+            <tbody id="attendanceLogsTableBody">
+              <!-- Injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: Multimodal Fusion & Sustained Thresholds Tuner (Instructions 6, 10) -->
+  <div class="modal-backdrop" id="fusionModal" style="display: none;">
+    <div class="modal-dialog glass-panel">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h2>Multimodal Fusion Weights &amp; Attendance Thresholds</h2>
+          <p class="subtext">Instruction 6 &amp; 10: Real-time mathematical weighting and temporal window parameters</p>
+        </div>
+        <button class="modal-close-btn" id="closeFusionModal" onclick="window.neuroApp && window.neuroApp.closeFusionModal()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="control-section">
+          <h3>Multimodal Signal Fusion Weights (Instruction 10)</h3>
+          <p class="subtext" style="margin-bottom: 12px;">Dynamic Engagement Index = w_vis * Visual + w_mot * Motion + w_aud * Acoustic</p>
+          
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Visual Attention Weight (Head Pose &amp; Gaze)</span>
+              <strong id="valWeightVisual">50%</strong>
+            </div>
+            <input type="range" id="sliderWeightVisual" min="0" max="100" value="50" class="styled-slider">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Motion Balance Weight (Optical Flow)</span>
+              <strong id="valWeightMotion">20%</strong>
+            </div>
+            <input type="range" id="sliderWeightMotion" min="0" max="100" value="20" class="styled-slider">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Acoustic Interaction Weight (VAD &amp; Rhythms)</span>
+              <strong id="valWeightAudio">30%</strong>
+            </div>
+            <input type="range" id="sliderWeightAudio" min="0" max="100" value="30" class="styled-slider">
+          </div>
+        </div>
+
+        <div class="control-section" style="margin-top: 18px;">
+          <h3>Sustained Presence Temporal Filter (Instruction 6)</h3>
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Min Observation Duration (Seconds)</span>
+              <strong id="valMinSustained">30s</strong>
+            </div>
+            <input type="range" id="sliderMinSustained" min="10" max="120" value="30" class="styled-slider">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Sustained Presence Threshold Ratio</span>
+              <strong id="valSustainedRatio">65%</strong>
+            </div>
+            <input type="range" id="sliderSustainedRatio" min="40" max="95" value="65" class="styled-slider">
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Walk-By Transient Filter Window</span>
+              <strong id="valWalkbySeconds">15s</strong>
+            </div>
+            <input type="range" id="sliderWalkbySeconds" min="5" max="30" value="15" class="styled-slider">
+          </div>
+        </div>
+
+        <div style="margin-top: 18px; display: flex; justify-content: flex-end; gap: 8px;">
+          <button id="saveFusionWeightsBtn" class="btn btn-primary">Apply &amp; Recompute</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: Storage Layer Explorer (Storage Layer in Diagram) -->
+  <div class="modal-backdrop" id="storageModal" style="display: none;">
+    <div class="modal-dialog glass-panel modal-lg">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h2>Storage Layer Explorer</h2>
+          <p class="subtext">Generated Audio Files, Generated Code Files &amp; Uploaded Assets</p>
+        </div>
+        <button class="modal-close-btn" id="closeStorageModal" onclick="window.neuroApp && window.neuroApp.closeStorageModal()">&times;</button>
+      </div>
+
+      <div class="modal-tabs">
+        <button class="tab-btn active" id="tabStorageAudio">🔊 Generated Audio Files</button>
+        <button class="tab-btn" id="tabStorageCode">💻 Generated Code Files</button>
+        <button class="tab-btn" id="tabStorageUploads">📤 Uploaded Files</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Audio Files Tab -->
+        <div id="storageAudioView" class="tab-content active">
+          <div class="modal-toolbar">
+            <span class="subtext">WAV Chimes &amp; Synthesized Voice Alerts (storage/audio/)</span>
+            <button id="generateNewAudioBtn" class="btn btn-sm btn-secondary">➕ Synthesize New Voice Chime</button>
+          </div>
+          <div id="audioFileList" class="storage-list">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Code Files Tab -->
+        <div id="storageCodeView" class="tab-content" style="display: none;">
+          <div class="modal-toolbar">
+            <span class="subtext">Exported Python Audit &amp; Analytics Scripts (storage/code/)</span>
+            <div style="display: flex; gap: 8px;">
+              <button id="generateAuditCodeBtn" class="btn btn-sm btn-primary">⚡ Generate Audit Script</button>
+              <button id="generateTrendCodeBtn" class="btn btn-sm btn-secondary">⚡ Generate Trend Script</button>
+            </div>
+          </div>
+          <div id="codeFileList" class="storage-list">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Uploaded Files Tab -->
+        <div id="storageUploadsView" class="tab-content" style="display: none;">
+          <div class="modal-toolbar">
+            <span class="subtext">Uploaded Video Clips &amp; Class Rosters (storage/uploads/)</span>
+            <input type="file" id="fileUploadInput" style="display: none;">
+            <button id="triggerUploadBtn" class="btn btn-sm btn-primary">📤 Upload File</button>
+          </div>
+          <div id="uploadsFileList" class="storage-list">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 5: Automated Testing Suite Runner (Instruction 15) -->
+  <div class="modal-backdrop" id="testsModal" style="display: none;">
+    <div class="modal-dialog glass-panel modal-lg">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h2>Instruction 15: System Verification Test Suite</h2>
+          <p class="subtext">Automated Unit Verification, Walk-By Rejection, Fusion &amp; Privacy Audit</p>
+        </div>
+        <button class="modal-close-btn" id="closeTestsModal" onclick="window.neuroApp && window.neuroApp.closeTestsModal()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="test-runner-header">
+          <div class="test-stats-row">
+            <div class="test-stat-card">
+              <span class="test-stat-num" id="testTotalCount">7</span>
+              <span class="test-stat-lbl">Test Suites</span>
+            </div>
+            <div class="test-stat-card">
+              <span class="test-stat-num text-emerald" id="testPassedStatus">PASS</span>
+              <span class="test-stat-lbl">Execution Status</span>
+            </div>
+            <div class="test-stat-card">
+              <span class="test-stat-num" id="testDurationNum">0.59s</span>
+              <span class="test-stat-lbl">Latency</span>
+            </div>
+            <div class="test-stat-card">
+              <span class="test-stat-num text-cyan">15/15</span>
+              <span class="test-stat-lbl">Verified Modules</span>
+            </div>
+          </div>
+          <button id="executeTestsBtn" class="btn btn-primary" style="margin-top: 12px; width: 100%;">
+            ▶️ Re-Run System Evaluation Test Suite
+          </button>
+        </div>
+
+        <div class="test-output-box">
+          <div class="test-output-header">
+            <span>Terminal Test Execution Log:</span>
+            <span class="subtext">tests/test_system.py</span>
+          </div>
+          <pre id="testOutputLog">Press "Re-Run" to execute automated test validation.</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 6: Gemini Visual Aid Viewer (Gemini Image Generation) -->
+  <div class="modal-backdrop" id="visualAidModal" style="display: none;">
+    <div class="modal-dialog glass-panel">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h2 id="visualAidTitle">Gemini Visual Concept Aid</h2>
+          <p class="subtext">Instruction 12 &amp; AI Service Layer: Concept diagram for student presentation</p>
+        </div>
+        <button class="modal-close-btn" id="closeVisualAidModal" onclick="window.neuroApp && window.neuroApp.closeVisualAidModal()">&times;</button>
+      </div>
+
+      <div class="modal-body" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;">
+        <div id="visualAidSvgContainer" style="width: 100%; display: flex; justify-content: center;">
+          <!-- SVG rendered here -->
+        </div>
+        <p class="subtext" style="margin-top: 12px; text-align: center;">
+          Rendered via Gemini Visual Aid Synthesis Engine • Zero External Tracking
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 7: Activity 3.2 Noise & Speech Activity Analysis Explorer -->
+  <div class="modal-backdrop" id="audioAnalysisModal" style="display: none;">
+    <div class="modal-dialog glass-panel modal-lg">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <h2>🎙️ Activity 3.2: Noise &amp; Speech Activity Analysis</h2>
+          <p class="subtext">Edge Acoustic Signal Extraction, Ambient Noise Trends &amp; Voice Activity Detection</p>
+        </div>
+        <button class="modal-close-btn" id="closeAudioAnalysisModal" onclick="window.neuroApp && window.neuroApp.closeAudioAnalysisModal()">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Section 1: Real-time Sound Pressure Level & Environmental Condition -->
+        <div class="arch-layer-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 16px;">
+          <!-- Sound Pressure Level Card -->
+          <div class="arch-card" style="padding: 16px;">
+            <div class="arch-card-header">
+              <span class="layer-dot dot-cyan"></span>
+              <h3>Sound Pressure Level</h3>
+            </div>
+            <div style="font-size: 28px; font-weight: 800; color: #38bdf8; margin: 8px 0;" id="audioModalSpl">55.0 dB SPL</div>
+            <div class="progress-track" style="margin-bottom: 8px;">
+              <div class="progress-bar progress-cyan" id="audioModalSplBar" style="width: 55%;"></div>
+            </div>
+            <div style="font-size: 12px; color: #94a3b8;" id="audioModalDbfs">Digital: -30.0 dBFS</div>
+          </div>
+
+          <!-- Ambient Condition & Trend -->
+          <div class="arch-card" style="padding: 16px;">
+            <div class="arch-card-header">
+              <span class="layer-dot dot-emerald"></span>
+              <h3>Classroom Environment</h3>
+            </div>
+            <div style="display: flex; gap: 8px; margin: 8px 0; align-items: center;">
+              <span class="badge-tag" id="audioModalAmbientLevel" style="font-size: 14px; padding: 4px 10px;">MODERATE</span>
+              <span class="pill-chip" id="audioModalTrend">STABLE (0.0 dB)</span>
+            </div>
+            <div style="font-size: 12px; color: #94a3b8; margin-top: 6px;" id="audioModalNoiseFloor">Adaptive Floor: 38.0 dB SPL</div>
+            <div style="font-size: 11px; color: #64748b; margin-top: 4px;" id="audioModalQuality">Condition: Optimal Learning</div>
+          </div>
+
+          <!-- 3-Tier Signal State -->
+          <div class="arch-card" style="padding: 16px;">
+            <div class="arch-card-header">
+              <span class="layer-dot dot-purple"></span>
+              <h3>Signal Classification</h3>
+            </div>
+            <div style="margin: 8px 0;">
+              <span id="audioModalSignalStateBadge" class="badge-present" style="font-size: 13px; padding: 4px 10px;">ACTIVE_SPEECH</span>
+            </div>
+            <div style="font-size: 12px; color: #94a3b8; margin-top: 6px;">
+              Rhythm: <strong id="audioModalRhythm" style="color: #f1f5f9;">Lecture Monologue</strong>
+            </div>
+            <div style="font-size: 11px; color: #64748b; margin-top: 4px;">
+              VAD: <strong id="audioModalVad" style="color: #34d399;">Active Speech Detected</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Short-Time Signal Characteristics & Interaction Dynamics -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px;">
+          <div class="kpi-card glass-panel" style="padding: 12px;">
+            <span class="subtext">Zero-Crossing Rate (ZCR)</span>
+            <strong style="font-size: 18px; color: #f1f5f9; display: block; margin-top: 4px;" id="audioModalZcr">0.082</strong>
+            <span style="font-size: 10px; color: #64748b;">Fricative / Vowel Ratio</span>
+          </div>
+
+          <div class="kpi-card glass-panel" style="padding: 12px;">
+            <span class="subtext">Spectral Centroid</span>
+            <strong style="font-size: 18px; color: #38bdf8; display: block; margin-top: 4px;" id="audioModalSpectralCentroid">1450 Hz</strong>
+            <span style="font-size: 10px; color: #64748b;">Timbre Brightness</span>
+          </div>
+
+          <div class="kpi-card glass-panel" style="padding: 12px;">
+            <span class="subtext">Spectral Flatness</span>
+            <strong style="font-size: 18px; color: #a78bfa; display: block; margin-top: 4px;" id="audioModalSpectralFlatness">0.125</strong>
+            <span style="font-size: 10px; color: #64748b;">Harmonic Resonance</span>
+          </div>
+
+          <div class="kpi-card glass-panel" style="padding: 12px;">
+            <span class="subtext">Dynamic Range</span>
+            <strong style="font-size: 18px; color: #34d399; display: block; margin-top: 4px;" id="audioModalDynamicRange">18.4 dB</strong>
+            <span style="font-size: 10px; color: #64748b;">Sub-frame Variance</span>
+          </div>
+        </div>
+
+        <!-- Section 3: Interaction Intensity & Speech Density -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px;">
+          <div class="kpi-card glass-panel" style="padding: 12px;">
+            <span class="subtext">Speech Ratio</span>
+            <strong style="font-size: 18px; color: #f1f5f9; display: block; margin-top: 4px;" id="audioModalSpeechRatio">45%</strong>
+            <span style="font-size: 10px; color: #64748b;">Active Vocalization</span>
+          </div>
+
+          <div class="kpi-card glass-panel" style="padding: 12px;">
+            <span class="subtext">Interaction Intensity</span>
+            <strong style="font-size: 18px; color: #38bdf8; display: block; margin-top: 4px;" id="audioModalInteractionIntensity">70%</strong>
+            <span style="font-size: 10px; color: #64748b;">Classroom Engagement Weight</span>
+          </div>
+
+          <div class="kpi-card glass-panel" style="padding: 12px;">
+            <span class="subtext">Participation Frequency</span>
+            <strong style="font-size: 18px; color: #a78bfa; display: block; margin-top: 4px;" id="audioModalParticipationFrequency">2.4 / min</strong>
+            <span style="font-size: 10px; color: #64748b;">Turns per Minute</span>
+          </div>
+
+          <div class="kpi-card glass-panel" style="padding: 12px;">
+            <span class="subtext">Total Speaker Turns</span>
+            <strong style="font-size: 18px; color: #34d399; display: block; margin-top: 4px;" id="audioModalSpeakerTurns">14</strong>
+            <span style="font-size: 10px; color: #64748b;">Cumulative Session Turns</span>
+          </div>
+        </div>
+
+        <!-- Section 4: Aggregated Session Context -->
+        <div class="panel glass-panel" style="padding: 16px; margin-bottom: 16px;">
+          <h3 style="font-size: 14px; margin-bottom: 10px; color: #f1f5f9;">Aggregated Session-Level Audio Context Metrics</h3>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; font-size: 12px;">
+            <div style="background: rgba(15, 23, 42, 0.4); padding: 10px; border-radius: 8px;">
+              <span style="color: #94a3b8; display: block;">Speech vs Silence vs Noise</span>
+              <strong style="color: #10b981;" id="audioModalSpeechPct">Speech: 45%</strong> • 
+              <strong style="color: #94a3b8;" id="audioModalSilencePct">Silence: 35%</strong> • 
+              <strong style="color: #f59e0b;" id="audioModalNoisePct">Noise: 20%</strong>
+            </div>
+            <div style="background: rgba(15, 23, 42, 0.4); padding: 10px; border-radius: 8px;">
+              <span style="color: #94a3b8; display: block;">Mean &amp; Peak Sound Level</span>
+              <span id="audioModalMeanPeak" style="color: #f1f5f9; font-weight: 600;">Mean: 54.2 dB SPL • Peak: 68.5 dB SPL</span>
+            </div>
+            <div style="background: rgba(15, 23, 42, 0.4); padding: 10px; border-radius: 8px;">
+              <span style="color: #94a3b8; display: block;">Multimodal Fusion Status</span>
+              <span style="color: #38bdf8; font-weight: 600;">Synchronized at 15 FPS Video Align</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 5: Live Audio Source Switcher -->
+        <div style="display: flex; justify-content: space-between; align-items: center; background: rgba(30, 41, 59, 0.5); padding: 12px 16px; border-radius: 10px;">
+          <div>
+            <span style="font-weight: 600; font-size: 13px;">Live Web Microphone Audio Feed:</span>
+            <span class="subtext" style="display: block; font-size: 11px;">Ingests browser microphone via Web Audio API &amp; WebSocket /ws/audio (100% Privacy Preserved)</span>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <button id="modalToggleMicBtn" class="btn btn-primary" onclick="window.neuroApp && window.neuroApp.toggleLiveMicFromModal()">
+              🎤 Toggle Live Web Microphone
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 8: Activity 4.1 Multimodal Agent & Explainable AI Insights Explorer -->
+  <div id="multimodalAgentModal" class="modal-overlay hidden">
+    <div class="modal-content glass-panel" style="max-width: 960px; max-height: 90vh; overflow-y: auto;">
+      <div class="modal-header">
+        <div>
+          <h2 style="display: flex; align-items: center; gap: 8px;">
+            <span>🤖 Activity 4.1: Multimodal Agent Implementation</span>
+            <span class="badge-tag" style="background: rgba(139, 92, 246, 0.2); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.4);">Core Intelligence Layer</span>
+          </h2>
+          <p class="subtitle" style="margin-top: 4px;">Unified Vision &amp; Audio Understanding • Contextual Rule-Based Reasoning • Groq LLM Pedagogical Insights</p>
+        </div>
+        <button class="modal-close" onclick="window.neuroApp && window.neuroApp.closeMultimodalAgentModal()">&times;</button>
+      </div>
+
+      <div class="modal-body" style="padding-top: 10px;">
+        <!-- Top Status Banner -->
+        <div style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 12px; padding: 14px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <strong style="color: #c084fc; font-size: 15px;">Unified Multimodal Reasoning Engine Active</strong>
+            <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 0 0;">
+              Integrates visual head pose, gaze focus, and motion energy with sound pressure level, speech activity state, and rhythm dynamics into explainable engagement insights.
+            </p>
+          </div>
+          <div style="text-align: right;">
+            <span class="badge-tag" style="background: #10b981; color: #022c22; font-weight: bold; font-size: 12px;">100% EXPLAINABLE AI</span>
+          </div>
+        </div>
+
+        <!-- Section 1: Live Multimodal Agent Telemetry Overview -->
+        <div style="display: grid; grid-template-columns: 1.2fr 1.8fr; gap: 16px; margin-bottom: 16px;">
+          <!-- Left: Composite Engagement Index & State Pill -->
+          <div class="panel glass-panel" style="padding: 16px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+            <span class="subtext" style="text-transform: uppercase; letter-spacing: 1px; font-size: 11px;">Multimodal Composite Engagement</span>
+            <div style="font-size: 48px; font-weight: 800; color: #00E5FF; margin: 8px 0; text-shadow: 0 0 20px rgba(0, 229, 255, 0.4);" id="agentModalEiValue">
+              78.5%
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: center;">
+              <span id="agentModalStatePill" class="badge-tag" style="background: #10b981; color: #064e3b; font-weight: bold; padding: 4px 10px; font-size: 12px;">
+                HIGH_FLOW
+              </span>
+              <span id="agentModalTrendPill" class="badge-tag" style="background: rgba(30, 41, 59, 0.8); color: #38bdf8; border: 1px solid #38bdf8; font-size: 11px;">
+                STABLE (0.0%)
+              </span>
+            </div>
+            <div style="margin-top: 12px; font-size: 11px; color: #94a3b8;">
+              Modality Attribution: <strong id="agentModalDominantModality" style="color: #f1f5f9;">BALANCED</strong>
+            </div>
+          </div>
+
+          <!-- Right: Active Rule Triggered & Explainable Diagnosis -->
+          <div class="panel glass-panel" style="padding: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span class="subtext" style="font-weight: 600;">ACTIVE RULE-BASED REASONING TRIGGER</span>
+                <span id="agentModalConfidenceBadge" class="badge-tag" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); font-size: 11px;">
+                  92% Confidence
+                </span>
+              </div>
+              <strong id="agentModalRuleId" style="color: #38bdf8; font-size: 16px; display: block; font-family: monospace;">
+                M1_HIGH_INSTRUCTIONAL_FLOW
+              </strong>
+            </div>
+
+            <div style="background: rgba(15, 23, 42, 0.5); padding: 12px; border-radius: 8px; border-left: 3px solid #00E5FF; margin: 10px 0;">
+              <span style="font-size: 11px; color: #94a3b8; display: block; text-transform: uppercase; font-weight: 600; margin-bottom: 4px;">Contextual Explainable Diagnosis:</span>
+              <p id="agentModalDiagnosisText" style="font-size: 13px; color: #f1f5f9; margin: 0; line-height: 1.4;">
+                High visual gaze convergence (85.0%) combined with quiet, responsive listening establishes optimal cognitive absorption and instructional flow.
+              </p>
+            </div>
+
+            <!-- 3-Way Component Breakdown Bars -->
+            <div>
+              <span style="font-size: 11px; color: #94a3b8; display: block; margin-bottom: 6px;">Multimodal Fusion Factors Attribution:</span>
+              <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; font-size: 11px;">
+                <div style="background: rgba(30, 41, 59, 0.6); padding: 6px 10px; border-radius: 6px;">
+                  <span style="color: #38bdf8; display: block;">Visual (50% wt)</span>
+                  <strong id="agentModalVisFactor" style="color: #f1f5f9;">42.5%</strong>
+                </div>
+                <div style="background: rgba(30, 41, 59, 0.6); padding: 6px 10px; border-radius: 6px;">
+                  <span style="color: #34d399; display: block;">Motion (20% wt)</span>
+                  <strong id="agentModalMotFactor" style="color: #f1f5f9;">19.0%</strong>
+                </div>
+                <div style="background: rgba(30, 41, 59, 0.6); padding: 6px 10px; border-radius: 6px;">
+                  <span style="color: #a78bfa; display: block;">Audio (30% wt)</span>
+                  <strong id="agentModalAudFactor" style="color: #f1f5f9;">25.5%</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: LLM Insights Generator (Groq llama-3.3-70b-versatile) -->
+        <div class="panel glass-panel" style="padding: 16px; margin-bottom: 16px; border: 1px solid rgba(139, 92, 246, 0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 18px;">💡</span>
+              <h3 style="font-size: 14px; margin: 0; color: #f1f5f9;">LLM Pedagogical Insight Generator (`backend/core/llm_insights.py`)</h3>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <span id="agentModalModelBadge" class="badge-tag" style="background: rgba(139, 92, 246, 0.2); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.4); font-size: 11px;">
+                Groq llama-3.3-70b-versatile
+              </span>
+              <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 11px;" onclick="window.neuroApp && window.neuroApp.refreshLlmInsight()">
+                🔄 Regenerate Insight
+              </button>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div style="background: rgba(15, 23, 42, 0.4); padding: 12px; border-radius: 8px; border-left: 3px solid #38bdf8;">
+              <span style="font-size: 11px; text-transform: uppercase; color: #38bdf8; font-weight: 700; display: block; margin-bottom: 4px;">
+                Classroom Insight:
+              </span>
+              <p id="agentModalLlmInsightText" style="font-size: 13px; color: #e2e8f0; margin: 0; line-height: 1.4;">
+                Classroom status is stable with balanced visual focus and instructional rhythm.
+              </p>
+            </div>
+
+            <div style="background: rgba(15, 23, 42, 0.4); padding: 12px; border-radius: 8px; border-left: 3px solid #10b981;">
+              <span style="font-size: 11px; text-transform: uppercase; color: #10b981; font-weight: 700; display: block; margin-bottom: 4px;">
+                Actionable Teaching Recommendation:
+              </span>
+              <p id="agentModalLlmRecommendationText" style="font-size: 13px; color: #e2e8f0; margin: 0; line-height: 1.4;">
+                Maintain current instructional pace and monitor upcoming transition intervals.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Multimodal Contextual Rule Catalog -->
+        <div class="panel glass-panel" style="padding: 16px;">
+          <h3 style="font-size: 14px; margin-bottom: 12px; color: #f1f5f9;">Contextual Multimodal Rules Catalog</h3>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; font-size: 12px;">
+            <div class="rule-card" style="background: rgba(15, 23, 42, 0.4); padding: 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
+              <strong style="color: #38bdf8;">Rule M1: High Instructional Flow</strong>
+              <p style="color: #94a3b8; margin: 4px 0 0 0; font-size: 11px;">Visual Attention &ge; 70% + Quiet Room (&lt; 65 dB SPL) &rarr; Optimal cognitive absorption</p>
+            </div>
+
+            <div class="rule-card" style="background: rgba(15, 23, 42, 0.4); padding: 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
+              <strong style="color: #f59e0b;">Rule M2: Passive Visual Disengagement</strong>
+              <p style="color: #94a3b8; margin: 4px 0 0 0; font-size: 11px;">Visual Attention &lt; 55% + Quiet Room (&lt; 55 dB SPL) &rarr; Wandering gaze in silent room</p>
+            </div>
+
+            <div class="rule-card" style="background: rgba(15, 23, 42, 0.4); padding: 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
+              <strong style="color: #34d399;">Rule M3: Vibrant Discussion Resonance</strong>
+              <p style="color: #94a3b8; margin: 4px 0 0 0; font-size: 11px;">Q&amp;A rhythm + Turn-Taking &ge; 1.5/min + Active Gaze &rarr; Vibrant collaborative learning</p>
+            </div>
+
+            <div class="rule-card" style="background: rgba(15, 23, 42, 0.4); padding: 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
+              <strong style="color: #ef4444;">Rule M4: Acoustic Chaos Disruption</strong>
+              <p style="color: #94a3b8; margin: 4px 0 0 0; font-size: 11px;">Ambient Noise &ge; 75 dB SPL / LOUD_DISRUPTIVE &rarr; Room cross-talk disruption</p>
+            </div>
+
+            <div class="rule-card" style="background: rgba(15, 23, 42, 0.4); padding: 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
+              <strong style="color: #a78bfa;">Rule M5: Question Concept Freeze</strong>
+              <p style="color: #94a3b8; margin: 4px 0 0 0; font-size: 11px;">Q&amp;A rhythm + Silence &ge; 20s + Focused Gaze &rarr; Student comprehension barrier</p>
+            </div>
+
+            <div class="rule-card" style="background: rgba(15, 23, 42, 0.4); padding: 10px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05);">
+              <strong style="color: #f43f5e;">Rule M6: Extended Monologue Fatigue</strong>
+              <p style="color: #94a3b8; margin: 4px 0 0 0; font-size: 11px;">Monologue &ge; 8 min + Restless Fidgeting &rarr; Working memory saturation</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 9: Activity 4.2 Multimodal Signal Fusion Explorer -->
+  <div id="fusionActivityModal" class="modal-overlay hidden">
+    <div class="modal-content glass-panel" style="max-width: 980px; max-height: 90vh; overflow-y: auto;">
+      <div class="modal-header">
+        <div>
+          <h2 style="display: flex; align-items: center; gap: 8px;">
+            <span>🎛️ Activity 4.2: Multimodal Signal Fusion</span>
+            <span class="badge-tag" style="background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.4);">Unified Data Representation</span>
+          </h2>
+          <p class="subtitle" style="margin-top: 4px;">Timestamp-Based Synchronization • Visual &amp; Audio Alignment • Proportional Multimodal Contribution • Extensible Architecture</p>
+        </div>
+        <button class="modal-close" onclick="window.neuroApp && window.neuroApp.closeFusionActivityModal()">&times;</button>
+      </div>
+
+      <div class="modal-body" style="padding-top: 10px;">
+        <!-- Top Status Banner -->
+        <div style="background: rgba(168, 85, 247, 0.1); border: 1px solid rgba(168, 85, 247, 0.3); border-radius: 12px; padding: 14px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <strong style="color: #c084fc; font-size: 15px;">Timestamp-Synchronized Multimodal Fusion Pipeline Active</strong>
+            <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 0 0;">
+              Aligns visual indicators (presence duration, movement pattern, motion energy, inactivity periods) with audio indicators (ambient noise SPL, speech activity state, rhythm, participation frequency) into an extensible unified representation.
+            </p>
+          </div>
+          <div style="text-align: right;">
+            <span class="badge-tag" style="background: #10b981; color: #022c22; font-weight: bold; font-size: 12px;">ACTIVITY 4.2 VERIFIED</span>
+          </div>
+        </div>
+
+        <!-- Section 1: Synchronization Metrics & Cross-Modal Telemetry -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px;">
+          <div class="panel glass-panel" style="padding: 12px; text-align: center;">
+            <span class="subtext" style="font-size: 10px; text-transform: uppercase;">Sync Temporal Jitter</span>
+            <div id="fusionSyncJitter" style="font-size: 22px; font-weight: 700; color: #38bdf8; margin: 4px 0;">-- ms</div>
+            <span style="font-size: 10px; color: #10b981;">Sub-frame aligned (&lt;5ms)</span>
+          </div>
+
+          <div class="panel glass-panel" style="padding: 12px; text-align: center;">
+            <span class="subtext" style="font-size: 10px; text-transform: uppercase;">Cross-Modal Correlation</span>
+            <div id="fusionCrossCorr" style="font-size: 22px; font-weight: 700; color: #c084fc; margin: 4px 0;">--</div>
+            <span style="font-size: 10px; color: #94a3b8;">Pearson r (Rolling 30s)</span>
+          </div>
+
+          <div class="panel glass-panel" style="padding: 12px; text-align: center;">
+            <span class="subtext" style="font-size: 10px; text-transform: uppercase;">Sensory Coherence</span>
+            <div id="fusionCoherence" style="font-size: 22px; font-weight: 700; color: #34d399; margin: 4px 0;">--%</div>
+            <span style="font-size: 10px; color: #94a3b8;">Pedagogical Harmony</span>
+          </div>
+
+          <div class="panel glass-panel" style="padding: 12px; text-align: center;">
+            <span class="subtext" style="font-size: 10px; text-transform: uppercase;">Dominant Modality</span>
+            <div id="fusionDominantModality" style="font-size: 15px; font-weight: 700; color: #f59e0b; margin: 8px 0;">BALANCED</div>
+            <span style="font-size: 10px; color: #94a3b8;">Sensory Weight Balance</span>
+          </div>
+        </div>
+
+        <!-- Section 2: Aligned Modalities Grid (Visual vs Audio) -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+          <!-- Visual Modality Indicators -->
+          <div class="panel glass-panel" style="padding: 14px; border-left: 3px solid #38bdf8;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <strong style="color: #38bdf8; font-size: 13px;">👁️ Aligned Visual Indicators</strong>
+              <span id="fusionMovementPattern" class="badge-tag" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-size: 10px;">FOCUSED_STABLE</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 11px;">
+              <div style="background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 6px;">
+                <span style="color: #94a3b8; display: block;">Visual Focus:</span>
+                <strong id="fusionVisualAttention" style="color: #f1f5f9; font-size: 14px;">--%</strong>
+              </div>
+              <div style="background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 6px;">
+                <span style="color: #94a3b8; display: block;">Presence Duration:</span>
+                <strong id="fusionPresenceDuration" style="color: #f1f5f9; font-size: 14px;">-- s</strong>
+              </div>
+              <div style="background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 6px;">
+                <span style="color: #94a3b8; display: block;">Motion Energy:</span>
+                <strong id="fusionMotionEnergy" style="color: #f1f5f9; font-size: 14px;">--</strong>
+              </div>
+              <div style="background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 6px;">
+                <span style="color: #94a3b8; display: block;">Inactivity Period:</span>
+                <strong id="fusionInactivitySec" style="color: #f1f5f9; font-size: 14px;">-- s</strong>
+              </div>
+            </div>
+            <div style="margin-top: 10px; font-size: 11px; color: #94a3b8;">
+              Proportional Contribution: <strong id="fusionVisContrib" style="color: #38bdf8;">--%</strong> (50% wt)
+            </div>
+          </div>
+
+          <!-- Audio Modality Indicators -->
+          <div class="panel glass-panel" style="padding: 14px; border-left: 3px solid #a78bfa;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <strong style="color: #a78bfa; font-size: 13px;">🎙️ Aligned Audio Indicators</strong>
+              <span id="fusionSpeechState" class="badge-tag" style="background: rgba(167, 139, 250, 0.2); color: #a78bfa; font-size: 10px;">ACTIVE_SPEECH</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 11px;">
+              <div style="background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 6px;">
+                <span style="color: #94a3b8; display: block;">Ambient Noise SPL:</span>
+                <strong id="fusionNoiseSpl" style="color: #f1f5f9; font-size: 14px;">-- dB SPL</strong>
+              </div>
+              <div style="background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 6px;">
+                <span style="color: #94a3b8; display: block;">Instructional Rhythm:</span>
+                <strong id="fusionRhythmState" style="color: #f1f5f9; font-size: 12px;">--</strong>
+              </div>
+              <div style="background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 6px;">
+                <span style="color: #94a3b8; display: block;">Participation Freq:</span>
+                <strong id="fusionPartFreq" style="color: #f1f5f9; font-size: 14px;">-- turns/min</strong>
+              </div>
+              <div style="background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 6px;">
+                <span style="color: #94a3b8; display: block;">Speaker Turns:</span>
+                <strong id="fusionSpeakerTurns" style="color: #f1f5f9; font-size: 14px;">--</strong>
+              </div>
+            </div>
+            <div style="margin-top: 10px; font-size: 11px; color: #94a3b8;">
+              Proportional Contribution: <strong id="fusionAudContrib" style="color: #a78bfa;">--%</strong> (30% wt)
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: AI Suggestion Engine (Reference image: backend/core/ai_suggestions.py) -->
+        <div class="panel glass-panel" style="padding: 16px; margin-bottom: 16px; border: 1px solid rgba(168, 85, 247, 0.3);">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 18px;">✨</span>
+              <div>
+                <h3 style="font-size: 14px; margin: 0; color: #f1f5f9;">AI Suggestion Engine (`backend/core/ai_suggestions.py`)</h3>
+                <span style="font-size: 11px; color: #94a3b8;">Groq llama3-8b-8192 • Temperature 0.7 • Max Tokens 200 • System: "You are an expert AI teaching assistant."</span>
+              </div>
+            </div>
+            <button class="btn btn-purple-glow" style="padding: 6px 14px; font-size: 12px;" onclick="window.neuroApp && window.neuroApp.triggerAiSuggestions()">
+              ✨ Generate AI Suggestions
+            </button>
+          </div>
+
+          <div id="aiSuggestionsContainer" style="display: grid; grid-template-columns: 1fr; gap: 10px;">
+            <div style="background: rgba(15, 23, 42, 0.4); padding: 12px; border-radius: 8px; border-left: 3px solid #c084fc;">
+              <strong style="color: #c084fc; font-size: 13px;">TITLE: Instructional Flow Maintenance</strong>
+              <p style="font-size: 12px; color: #e2e8f0; margin: 4px 0 0 0;"><strong>ACTION:</strong> Continue current instructional progression; learners are displaying harmonious visual and acoustic balance.</p>
+              <p style="font-size: 11px; color: #94a3b8; margin: 4px 0 0 0;"><strong>RATIONALE:</strong> High multimodal engagement index with balanced visual attention and acoustic resonance.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 4: Extensible Multi-Sensor Architecture Hub -->
+        <div class="panel glass-panel" style="padding: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div>
+              <h3 style="font-size: 14px; margin: 0; color: #f1f5f9;">Extensible Architecture Hub</h3>
+              <span style="font-size: 11px; color: #94a3b8;">Dynamic registration of supplementary sensory modalities (smart whiteboard, wearable biometrics, clicker polls)</span>
+            </div>
+            <div style="display: flex; gap: 6px;">
+              <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 11px;" onclick="window.neuroApp &amp;&amp; window.neuroApp.testCustomModality()">
+                ➕ Inject Test Modality
+              </button>
+              <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 11px;" onclick="window.neuroApp &amp;&amp; window.neuroApp.resetToLiveTelemetry()">
+                🔄 Reset to Live
+              </button>
+            </div>
+          </div>
+          <div id="fusionCustomModalitiesList" style="display: flex; gap: 8px; flex-wrap: wrap; font-size: 11px;">
+            <span class="badge-tag" style="background: rgba(30, 41, 59, 0.8); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3);">
+              Modality: Vision (Primary)
+            </span>
+            <span class="badge-tag" style="background: rgba(30, 41, 59, 0.8); color: #a78bfa; border: 1px solid rgba(167, 139, 250, 0.3);">
+              Modality: Audio (Primary)
+            </span>
+            <span id="customModalityTag" class="badge-tag" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">
+              Extensible Hook: Ready
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 10: Activity 4.3 Engagement Scoring Logic & Temporal Profile Explorer -->
+  <div id="scoringActivityModal" class="modal-overlay hidden">
+    <div class="modal-content glass-panel" style="max-width: 1020px; max-height: 90vh; overflow-y: auto;">
+      <div class="modal-header">
+        <div>
+          <h2 style="display: flex; align-items: center; gap: 8px;">
+            <span>📈 Activity 4.3: Engagement Scoring Logic</span>
+            <span class="badge-tag" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);">Rule-Based Logic &amp; Predefined Thresholds</span>
+          </h2>
+          <p class="subtitle" style="margin-top: 4px;">Sustained Visual Presence • Movement Frequency • Inactivity Duration • Speech Activity Intensity • Temporal Engagement Profile</p>
+        </div>
+        <button class="modal-close" onclick="window.neuroApp && window.neuroApp.closeScoringActivityModal()">&times;</button>
+      </div>
+
+      <div class="modal-body" style="padding-top: 10px;">
+        <!-- Top Status Banner -->
+        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 14px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <strong style="color: #34d399; font-size: 15px;">Temporal Engagement Profile &amp; Explainable Scoring Engine Active</strong>
+            <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 0 0;">
+              Transforms fused multimodal signals into interpretable scores across regular time segments, identifying attention fluctuations, peak periods, and extended disengagements.
+            </p>
+          </div>
+          <div style="text-align: right;">
+            <span class="badge-tag" style="background: #10b981; color: #022c22; font-weight: bold; font-size: 12px;">ACTIVITY 4.3 VERIFIED</span>
+          </div>
+        </div>
+
+        <!-- Section 1: KPI Summary Row -->
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px;">
+          <div class="panel glass-panel" style="padding: 12px; text-align: center;">
+            <span class="subtext" style="font-size: 10px; text-transform: uppercase;">Composite Score</span>
+            <div id="scoringCompositeVal" style="font-size: 24px; font-weight: 700; color: #34d399; margin: 4px 0;">--%</div>
+            <span id="scoringTierBadge" class="badge-tag" style="background: rgba(16, 185, 129, 0.2); color: #34d399; font-size: 10px;">HIGH</span>
+          </div>
+
+          <div class="panel glass-panel" style="padding: 12px; text-align: center;">
+            <span class="subtext" style="font-size: 10px; text-transform: uppercase;">Attention Stability</span>
+            <div id="scoringStabilityVal" style="font-size: 24px; font-weight: 700; color: #38bdf8; margin: 4px 0;">--%</div>
+            <span id="scoringFlucIndex" style="font-size: 10px; color: #94a3b8;">Fluctuation Index: --</span>
+          </div>
+
+          <div class="panel glass-panel" style="padding: 12px; text-align: center;">
+            <span class="subtext" style="font-size: 10px; text-transform: uppercase;">Peak Flow Periods</span>
+            <div id="scoringPeaksCount" style="font-size: 24px; font-weight: 700; color: #f59e0b; margin: 4px 0;">0</div>
+            <span style="font-size: 10px; color: #10b981;">Score &ge; 80% Threshold</span>
+          </div>
+
+          <div class="panel glass-panel" style="padding: 12px; text-align: center;">
+            <span class="subtext" style="font-size: 10px; text-transform: uppercase;">Disengagement Phases</span>
+            <div id="scoringDisengageCount" style="font-size: 24px; font-weight: 700; color: #ef4444; margin: 4px 0;">0</div>
+            <span style="font-size: 10px; color: #94a3b8;">Extended Drop-off Warning</span>
+          </div>
+        </div>
+
+        <!-- Section 2: Four-Factor Breakdown (Sustained Presence, Movement, Inactivity, Speech) -->
+        <div class="panel glass-panel" style="padding: 16px; margin-bottom: 16px;">
+          <h3 style="font-size: 13px; color: #f1f5f9; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+            <span>⚖️ Multimodal Factor Attribution &amp; Sub-Scores</span>
+            <span id="scoringDominantDriver" style="font-size: 11px; color: #34d399;">Dominant Driver: Visual Presence</span>
+          </h3>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
+            <!-- Factor 1: Sustained Visual Presence -->
+            <div style="background: rgba(15, 23, 42, 0.5); padding: 12px; border-radius: 8px; border-top: 3px solid #38bdf8;">
+              <span style="font-size: 11px; color: #94a3b8; display: block;">1. Sustained Visual Presence</span>
+              <strong id="scoringVisScore" style="font-size: 18px; color: #f1f5f9;">--%</strong>
+              <div style="font-size: 11px; color: #38bdf8; margin-top: 4px;">Contrib: <span id="scoringVisContrib">--</span> pts (<span id="scoringVisWeight">35%</span> wt)</div>
+              <p style="font-size: 10px; color: #64748b; margin: 4px 0 0 0;">Board gaze &amp; active presence ratio</p>
+            </div>
+
+            <!-- Factor 2: Movement Frequency -->
+            <div style="background: rgba(15, 23, 42, 0.5); padding: 12px; border-radius: 8px; border-top: 3px solid #a855f7;">
+              <span style="font-size: 11px; color: #94a3b8; display: block;">2. Movement Frequency</span>
+              <strong id="scoringMotScore" style="font-size: 18px; color: #f1f5f9;">--%</strong>
+              <div style="font-size: 11px; color: #a855f7; margin-top: 4px;">Contrib: <span id="scoringMotContrib">--</span> pts (<span id="scoringMotWeight">20%</span> wt)</div>
+              <p style="font-size: 10px; color: #64748b; margin: 4px 0 0 0;">Focused posture stability vs. fidgeting</p>
+            </div>
+
+            <!-- Factor 3: Inactivity Duration -->
+            <div style="background: rgba(15, 23, 42, 0.5); padding: 12px; border-radius: 8px; border-top: 3px solid #f59e0b;">
+              <span style="font-size: 11px; color: #94a3b8; display: block;">3. Inactivity Duration Penalty</span>
+              <strong id="scoringInaScore" style="font-size: 18px; color: #f1f5f9;">--%</strong>
+              <div style="font-size: 11px; color: #f59e0b; margin-top: 4px;">Contrib: <span id="scoringInaContrib">--</span> pts (<span id="scoringInaWeight">15%</span> wt)</div>
+              <p style="font-size: 10px; color: #64748b; margin: 4px 0 0 0;">Stillness penalties after 30s/60s/90s</p>
+            </div>
+
+            <!-- Factor 4: Speech Activity Intensity -->
+            <div style="background: rgba(15, 23, 42, 0.5); padding: 12px; border-radius: 8px; border-top: 3px solid #ec4899;">
+              <span style="font-size: 11px; color: #94a3b8; display: block;">4. Speech Activity Intensity</span>
+              <strong id="scoringAudScore" style="font-size: 18px; color: #f1f5f9;">--%</strong>
+              <div style="font-size: 11px; color: #ec4899; margin-top: 4px;">Contrib: <span id="scoringAudContrib">--</span> pts (<span id="scoringAudWeight">30%</span> wt)</div>
+              <p style="font-size: 10px; color: #64748b; margin: 4px 0 0 0;">Calibrated dB SPL &amp; turn-taking density</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Temporal Engagement Profile Timeline -->
+        <div class="panel glass-panel" style="padding: 16px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div>
+              <h3 style="font-size: 13px; color: #f1f5f9; margin: 0;">📊 Temporal Engagement Profile (Regular 10s Intervals)</h3>
+              <span style="font-size: 11px; color: #94a3b8;">Temporal profile across session timeline rather than a single aggregated value</span>
+            </div>
+            <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 11px;" onclick="window.neuroApp && window.neuroApp.refreshTemporalProfile()">
+              🔄 Recompute Profile
+            </button>
+          </div>
+
+          <!-- Dynamic SVG/CSS Timeline Chart Container -->
+          <div id="temporalProfileChartContainer" style="background: #090d16; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 14px; min-height: 140px; display: flex; align-items: flex-end; gap: 6px; overflow-x: auto;">
+            <!-- Dynamically populated segment bars -->
+            <div style="color: #64748b; font-size: 12px; margin: auto;">Loading temporal engagement profile timeline...</div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: #64748b;">
+            <span>🟢 Peak Periods (&ge;80%)</span>
+            <span>🔵 Nominal Flow (55-79%)</span>
+            <span>🟡 Moderate Drop (40-54%)</span>
+            <span>🔴 Extended Disengagement (&lt;40%)</span>
+          </div>
+        </div>
+
+        <!-- Section 4: Predefined Thresholds & Classroom Presets -->
+        <div class="panel glass-panel" style="padding: 16px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div>
+              <h3 style="font-size: 13px; color: #f1f5f9; margin: 0;">⚙️ Predefined Thresholds &amp; Classroom Presets</h3>
+              <span style="font-size: 11px; color: #94a3b8;">Fine-tune scoring logic dynamically based on classroom environment</span>
+            </div>
+            <span id="activePresetBadge" class="badge-tag" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4);">
+              Preset: LECTURE_STANDARD
+            </span>
+          </div>
+
+          <!-- Preset Selection Buttons -->
+          <div style="display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap;">
+            <button class="btn btn-secondary" style="padding: 5px 12px; font-size: 11px;" onclick="window.neuroApp && window.neuroApp.applyScoringPreset('LECTURE_STANDARD')">
+              📖 Lecture Standard
+            </button>
+            <button class="btn btn-secondary" style="padding: 5px 12px; font-size: 11px;" onclick="window.neuroApp && window.neuroApp.applyScoringPreset('INTERACTIVE_DISCUSSION')">
+              💬 Interactive Discussion
+            </button>
+            <button class="btn btn-secondary" style="padding: 5px 12px; font-size: 11px;" onclick="window.neuroApp && window.neuroApp.applyScoringPreset('HANDS_ON_LAB')">
+              🔬 Hands-On Lab
+            </button>
+            <button class="btn btn-secondary" style="padding: 5px 12px; font-size: 11px;" onclick="window.neuroApp && window.neuroApp.applyScoringPreset('QUIET_EXAM')">
+              ✍️ Quiet Exam
+            </button>
+          </div>
+
+          <!-- Threshold Slider Controls Grid -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; font-size: 11px;">
+            <div>
+              <label style="display: block; color: #94a3b8; margin-bottom: 4px;">Visual Presence Wt:</label>
+              <input type="range" id="inputWeightVis" min="0.10" max="0.70" step="0.05" value="0.35" style="width: 100%;" onchange="window.neuroApp && window.neuroApp.onThresholdSliderChange()">
+              <span id="valWeightVis" style="color: #38bdf8; font-weight: 600;">0.35</span>
+            </div>
+            <div>
+              <label style="display: block; color: #94a3b8; margin-bottom: 4px;">Movement Wt:</label>
+              <input type="range" id="inputWeightMot" min="0.05" max="0.50" step="0.05" value="0.20" style="width: 100%;" onchange="window.neuroApp && window.neuroApp.onThresholdSliderChange()">
+              <span id="valWeightMot" style="color: #a855f7; font-weight: 600;">0.20</span>
+            </div>
+            <div>
+              <label style="display: block; color: #94a3b8; margin-bottom: 4px;">Inactivity Wt:</label>
+              <input type="range" id="inputWeightIna" min="0.05" max="0.40" step="0.05" value="0.15" style="width: 100%;" onchange="window.neuroApp && window.neuroApp.onThresholdSliderChange()">
+              <span id="valWeightIna" style="color: #f59e0b; font-weight: 600;">0.15</span>
+            </div>
+            <div>
+              <label style="display: block; color: #94a3b8; margin-bottom: 4px;">Speech Wt:</label>
+              <input type="range" id="inputWeightAud" min="0.10" max="0.60" step="0.05" value="0.30" style="width: 100%;" onchange="window.neuroApp && window.neuroApp.onThresholdSliderChange()">
+              <span id="valWeightAud" style="color: #ec4899; font-weight: 600;">0.30</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 5: Peaks & Extended Disengagement Diagnostics -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+          <!-- Peak Engagement Periods Box -->
+          <div class="panel glass-panel" style="padding: 14px; border-left: 3px solid #10b981;">
+            <strong style="color: #10b981; font-size: 13px;">🌟 Peak Engagement Periods</strong>
+            <div id="scoringPeaksList" style="margin-top: 8px; display: flex; flex-direction: column; gap: 8px; font-size: 11px; max-height: 160px; overflow-y: auto;">
+              <div style="background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 6px;">
+                <span style="color: #34d399; font-weight: 600;">Peak #1: 86.4% Engagement</span>
+                <p style="color: #94a3b8; margin: 2px 0 0 0;">Duration: 30s • Drivers: Visual Presence, Speech Intensity</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Extended Disengagement Phases Box -->
+          <div class="panel glass-panel" style="padding: 14px; border-left: 3px solid #ef4444;">
+            <strong style="color: #ef4444; font-size: 13px;">⚠️ Extended Disengagement Phases</strong>
+            <div id="scoringDisengagementsList" style="margin-top: 8px; display: flex; flex-direction: column; gap: 8px; font-size: 11px; max-height: 160px; overflow-y: auto;">
+              <div style="background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 6px;">
+                <span style="color: #f87171; font-weight: 600;">No active disengagement alert</span>
+                <p style="color: #94a3b8; margin: 2px 0 0 0;">Classroom engagement is currently above minimum threshold.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 6: Downstream Intelligence Feeds & Actions -->
+        <div class="panel glass-panel" style="padding: 14px; display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <strong style="color: #f1f5f9; font-size: 13px;">Downstream Integration Ready</strong>
+            <p style="font-size: 11px; color: #94a3b8; margin: 2px 0 0 0;">
+              Scores feed directly into teaching suggestions, student analytics profiles, and session summaries.
+            </p>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px;" onclick="window.neuroApp && window.neuroApp.triggerDownstreamSummary()">
+              ⚡ Trigger Downstream Summary
+            </button>
+            <a href="/api/engagement/activity_4_3/export_json" download class="btn btn-primary" style="padding: 6px 12px; font-size: 11px;">
+              📥 Export Profile JSON
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL 11: Activity 5.1 Teaching Suggestion Logic & Teacher Analytics Modal -->
+  <div id="recommendationsModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-container" style="max-width: 950px; width: 95%;">
+      <div class="modal-header">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="badge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); font-size: 10px; padding: 2px 8px; border-radius: 12px; font-weight: 700;">EPIC 5 • Activity 5.1</span>
+            <span style="font-size: 11px; color: #94a3b8;">Recommendations Engine & Teacher Profiles</span>
+          </div>
+          <h2 style="margin: 4px 0 0 0; font-size: 18px; color: #f8fafc; display: flex; align-items: center; gap: 8px;">
+            💡 Teaching Suggestion Logic & Teacher Analytics
+          </h2>
+          <p style="margin: 2px 0 0 0; font-size: 12px; color: #94a3b8;">
+            Rule-based, non-prescriptive instructional guidance grounded in multimodal engagement trends & temporal dynamics.
+          </p>
+        </div>
+        <button class="btn-close" onclick="window.neuroApp && window.neuroApp.closeRecommendationsModal()" title="Close Modal">&times;</button>
+      </div>
+
+      <div class="modal-body" style="padding: 16px; max-height: 80vh; overflow-y: auto;">
+        
+        <!-- Section 1: Teacher Analytics Profile (Reference Image 1: backend/core/teacher_profiles.py) -->
+        <div class="panel glass-panel" style="padding: 16px; margin-bottom: 16px; border-top: 3px solid #3b82f6;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 18px;">👨‍🏫</span>
+              <div>
+                <strong style="color: #f1f5f9; font-size: 14px;" id="recTeacherName">Prof. Alex Vance</strong>
+                <span style="color: #94a3b8; font-size: 11px; margin-left: 8px;">ID: TCH-001 • Course: Advanced Multimodal AI</span>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="text-align: right;">
+                <span style="font-size: 10px; color: #94a3b8; display: block;">EFFECTIVENESS SCORE</span>
+                <span id="recEffectivenessScore" style="font-size: 20px; font-weight: 800; color: #38bdf8;">87.5%</span>
+              </div>
+              <div style="text-align: right;">
+                <span style="font-size: 10px; color: #94a3b8; display: block;">TREND</span>
+                <span id="recEffectivenessTrend" style="font-size: 14px; font-weight: 700; color: #34d399; background: rgba(16, 185, 129, 0.15); padding: 2px 8px; border-radius: 10px;">+12.0% ↗</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <!-- Left: Class History (from Image 1) -->
+            <div style="background: rgba(15, 23, 42, 0.4); padding: 12px; border-radius: 8px;">
+              <strong style="font-size: 12px; color: #94a3b8; display: block; margin-bottom: 8px;">📚 Class History & Engagement:</strong>
+              <div id="recClassHistoryList" style="display: flex; flex-direction: column; gap: 6px; font-size: 11px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: #cbd5e1;">CS101 (Today)</span>
+                  <span style="color: #38bdf8; font-weight: 700;">85%</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: #cbd5e1;">CS101 (Yesterday)</span>
+                  <span style="color: #38bdf8; font-weight: 700;">78%</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: #cbd5e1;">Math Workshop</span>
+                  <span style="color: #34d399; font-weight: 700;">92%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Student Trends (from Image 1) -->
+            <div style="background: rgba(15, 23, 42, 0.4); padding: 12px; border-radius: 8px;">
+              <strong style="font-size: 12px; color: #94a3b8; display: block; margin-bottom: 8px;">👥 Student Attention Trends:</strong>
+              <div id="recStudentTrendsList" style="display: flex; flex-direction: column; gap: 6px; font-size: 11px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: #cbd5e1;">Priya</span>
+                  <span style="color: #34d399; font-weight: 600;">+15% (improved)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: #cbd5e1;">Kumar</span>
+                  <span style="color: #34d399; font-weight: 600;">+8% (improved)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="color: #cbd5e1;">Asha</span>
+                  <span style="color: #f87171; font-weight: 600;">-5% (declining)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Strengths Tags (from Image 1) -->
+          <div style="margin-top: 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <span style="font-size: 11px; color: #94a3b8;">Pedagogical Strengths:</span>
+            <div id="recStrengthsList" style="display: flex; gap: 6px; flex-wrap: wrap;">
+              <span class="badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; font-size: 10px; padding: 2px 8px; border-radius: 10px;">High engagement sessions (85%+)</span>
+              <span class="badge" style="background: rgba(168, 85, 247, 0.15); color: #c084fc; font-size: 10px; padding: 2px 8px; border-radius: 10px;">Emotion diversity management</span>
+              <span class="badge" style="background: rgba(34, 197, 94, 0.15); color: #4ade80; font-size: 10px; padding: 2px 8px; border-radius: 10px;">Effective Pacing & Interactive Dynamics</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Real-Time Recommendation Feed (Reference Image 2: backend/core/recommendations_engine.py) -->
+        <div class="panel glass-panel" style="padding: 16px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <strong style="color: #f1f5f9; font-size: 14px;">⚡ Active Instructional Recommendations</strong>
+              <span class="badge" id="recCountBadge" style="background: rgba(245, 158, 11, 0.2); color: #fbbf24; font-size: 10px; padding: 2px 6px; border-radius: 8px;">3 Active</span>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 11px;" onclick="window.neuroApp && window.neuroApp.evaluateLiveRecommendations()">
+                🔄 Evaluate Live Status
+              </button>
+              <button class="btn btn-ghost" style="padding: 4px 10px; font-size: 11px;" onclick="window.neuroApp && window.neuroApp.resetRecommendationCooldowns()">
+                🧹 Reset History
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic Recommendations Feed List -->
+          <div id="recommendationsFeedList" style="display: flex; flex-direction: column; gap: 10px; max-height: 280px; overflow-y: auto;">
+            <!-- Example Card: Low Attention Alert (Image 2) -->
+            <div class="panel glass-panel" style="padding: 12px; border-left: 4px solid #ef4444; background: rgba(239, 68, 68, 0.08);">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="badge" style="background: rgba(239, 68, 68, 0.2); color: #ef4444; font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 700;">ALERT</span>
+                  <strong style="color: #f1f5f9; font-size: 12px;">Individual Attention Alert: STU-102</strong>
+                </div>
+                <span style="font-size: 10px; color: #94a3b8;">Confidence: 90%</span>
+              </div>
+              <p style="margin: 4px 0; font-size: 11px; color: #cbd5e1;">Student STU-102 is distracted (38.5%).</p>
+              <div style="margin-top: 6px; background: rgba(15, 23, 42, 0.4); padding: 6px 10px; border-radius: 4px; font-size: 11px; color: #93c5fd;">
+                <strong>Suggested Action:</strong> Consider redirecting focus non-verbally, establishing brief eye contact, or checking comprehension during group work.
+              </div>
+            </div>
+
+            <!-- Example Card: Global Attention Warning (Image 2) -->
+            <div class="panel glass-panel" style="padding: 12px; border-left: 4px solid #f59e0b; background: rgba(245, 158, 11, 0.08);">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="badge" style="background: rgba(245, 158, 11, 0.2); color: #f59e0b; font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 700;">WARNING</span>
+                  <strong style="color: #f1f5f9; font-size: 12px;">Classwide Attention Warning</strong>
+                </div>
+                <span style="font-size: 10px; color: #94a3b8;">Confidence: 88%</span>
+              </div>
+              <p style="margin: 4px 0; font-size: 11px; color: #cbd5e1;">Collective attention dipped below threshold (Average: 56.4%).</p>
+              <div style="margin-top: 6px; background: rgba(15, 23, 42, 0.4); padding: 6px 10px; border-radius: 4px; font-size: 11px; color: #fde68a;">
+                <strong>Suggested Action:</strong> Pacing check: Pose an active question, initiate a 60-second comprehension check, or pause for student questions.
+              </div>
+            </div>
+
+            <!-- Example Card: Peak Engagement Period Highlight -->
+            <div class="panel glass-panel" style="padding: 12px; border-left: 4px solid #10b981; background: rgba(16, 185, 129, 0.08);">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #10b981; font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 700;">INFO</span>
+                  <strong style="color: #f1f5f9; font-size: 12px;">Peak Engagement Period Highlight</strong>
+                </div>
+                <span style="font-size: 10px; color: #94a3b8;">Confidence: 95%</span>
+              </div>
+              <p style="margin: 4px 0; font-size: 11px; color: #cbd5e1;">High instructional resonance observed (86.4%). Primary driver: Visual & Discussion Synergy.</p>
+              <div style="margin-top: 6px; background: rgba(15, 23, 42, 0.4); padding: 6px 10px; border-radius: 4px; font-size: 11px; color: #86efac;">
+                <strong>Suggested Action:</strong> Current instructional modality is highly effective. Bookmark this segment and maintain this interactive pacing before transitioning to independent practice.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Interactive Simulation Triggers (Edge Case & Scenario Testing) -->
+        <div class="panel glass-panel" style="padding: 14px; margin-bottom: 16px;">
+          <strong style="font-size: 12px; color: #94a3b8; display: block; margin-bottom: 8px;">🧪 Simulate Classroom Dynamics & Test Triggers:</strong>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="btn btn-secondary" style="font-size: 11px; padding: 6px 12px;" onclick="window.neuroApp && window.neuroApp.simulateScenario('normal')">
+              📖 Standard Engaging Lecture
+            </button>
+            <button class="btn btn-secondary" style="font-size: 11px; padding: 6px 12px;" onclick="window.neuroApp && window.neuroApp.simulateScenario('distraction')">
+              ⚠️ Student Distraction (&lt;40%)
+            </button>
+            <button class="btn btn-secondary" style="font-size: 11px; padding: 6px 12px;" onclick="window.neuroApp && window.neuroApp.simulateScenario('disengagement')">
+              🚨 Extended Disengagement (&lt;50%)
+            </button>
+            <button class="btn btn-secondary" style="font-size: 11px; padding: 6px 12px;" onclick="window.neuroApp && window.neuroApp.simulateScenario('noise')">
+              🔊 Classroom Noise Spike (&gt;75 dB)
+            </button>
+            <button class="btn btn-secondary" style="font-size: 11px; padding: 6px 12px;" onclick="window.neuroApp &amp;&amp; window.neuroApp.simulateScenario('peak')">
+              🌟 Peak Engagement (&ge;85%)
+            </button>
+            <button class="btn btn-emerald-glow" style="font-size: 11px; padding: 6px 12px; font-weight: 700;" onclick="window.neuroApp &amp;&amp; window.neuroApp.resetToLiveTelemetry()">
+              🔄 Reset to Live Telemetry
+            </button>
+          </div>
+        </div>
+
+        <!-- Section 4: Explainable Rule Catalog -->
+        <div class="panel glass-panel" style="padding: 14px;">
+          <strong style="color: #cbd5e1; font-size: 12px; display: block; margin-bottom: 8px;">📋 Transparent Decision Rules Catalog (Activity 5.1):</strong>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 8px; font-size: 11px;">
+            <div style="background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 6px;">
+              <span style="color: #ef4444; font-weight: 700;">R1: Individual Attention Alert</span>
+              <p style="color: #94a3b8; margin: 2px 0 0 0;">Trigger: Student attention &lt; 40%. Promotes discrete, non-verbal redirection.</p>
+            </div>
+            <div style="background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 6px;">
+              <span style="color: #f59e0b; font-weight: 700;">R2: Global Attention Warning</span>
+              <p style="color: #94a3b8; margin: 2px 0 0 0;">Trigger: Class average attention &lt; 60%. Advises quick pacing check or poll.</p>
+            </div>
+            <div style="background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 6px;">
+              <span style="color: #ef4444; font-weight: 700;">R3: Sustained Disengagement</span>
+              <p style="color: #94a3b8; margin: 2px 0 0 0;">Trigger: Score &lt; 50% across 3+ segments. Recommends interactive Think-Pair-Share.</p>
+            </div>
+            <div style="background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 6px;">
+              <span style="color: #10b981; font-weight: 700;">R4: Peak Engagement Highlight</span>
+              <p style="color: #94a3b8; margin: 2px 0 0 0;">Trigger: Score &ge; 82%. Reinforces successful instructional strategies.</p>
+            </div>
+            <div style="background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 6px;">
+              <span style="color: #f59e0b; font-weight: 700;">R5: Classroom Noise Management</span>
+              <p style="color: #94a3b8; margin: 2px 0 0 0;">Trigger: Ambient noise &ge; 75 dB SPL. Provides acoustic room management cues.</p>
+            </div>
+            <div style="background: rgba(15, 23, 42, 0.4); padding: 8px; border-radius: 6px;">
+              <span style="color: #f59e0b; font-weight: 700;">R6: Instructional Pacing Drop</span>
+              <p style="color: #94a3b8; margin: 2px 0 0 0;">Trigger: Rapid drop &ge; 15%. Promotes immediate comprehension clarification.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL 12: Activity 5.2 Student Session Analytics & Reflective Summary Modal -->
+  <div id="studentAnalyticsModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-container" style="max-width: 980px; width: 95%;">
+      <div class="modal-header">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); font-size: 10px; padding: 2px 8px; border-radius: 12px; font-weight: 700;">EPIC 5 • Activity 5.2</span>
+            <span style="font-size: 11px; color: #94a3b8;">Student-Facing Reflective Analytics</span>
+          </div>
+          <h2 style="margin: 4px 0 0 0; font-size: 18px; color: #f8fafc; display: flex; align-items: center; gap: 8px;">
+            🎓 Student Session Analytics & Reflective Summary
+          </h2>
+          <p style="margin: 2px 0 0 0; font-size: 12px; color: #94a3b8;">
+            Individual participation summaries, engagement timelines & self-reflection insights without peer comparison or grading.
+          </p>
+        </div>
+        <button class="btn-close" onclick="window.neuroApp && window.neuroApp.closeStudentAnalyticsModal()" title="Close Modal">&times;</button>
+      </div>
+
+      <div class="modal-body" style="padding: 16px; max-height: 80vh; overflow-y: auto;">
+        
+        <!-- Controls & Student Selector Header -->
+        <div class="panel glass-panel" style="padding: 12px 16px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <label for="studentSelectActivity52" style="font-size: 12px; color: #94a3b8; font-weight: 600;">Learner Profile:</label>
+            <select id="studentSelectActivity52" class="styled-select" style="min-width: 220px; font-size: 12px;" onchange="window.neuroApp && window.neuroApp.onStudentSelectedActivity52(this.value)">
+              <option value="STU-101">Emma Watson (STU-101) - Desk 1</option>
+              <option value="STU-102">Liam Smith (STU-102) - Desk 2</option>
+              <option value="STU-103">Sophia Chen (STU-103) - Desk 3</option>
+              <option value="STU-104">Noah Patel (STU-104) - Desk 4</option>
+              <option value="STU-105">Olivia Brown (STU-105) - Desk 5</option>
+              <option value="STU-106">Ethan Davis (STU-106) - Desk 6</option>
+              <option value="STU-107">Ava Miller (STU-107) - Desk 7</option>
+              <option value="STU-108">Lucas Garcia (STU-108) - Desk 8</option>
+            </select>
+          </div>
+
+          <div style="display: flex; gap: 8px; align-items: center;">
+            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 11px;" onclick="window.neuroApp && window.neuroApp.refreshStudentAnalytics()">
+              🔄 Refresh Profile
+            </button>
+            <button class="btn btn-primary" style="padding: 6px 12px; font-size: 11px;" onclick="window.neuroApp && window.neuroApp.exportStudentReport('json')">
+              📥 Export JSON
+            </button>
+            <button class="btn btn-emerald" style="padding: 6px 12px; font-size: 11px;" onclick="window.neuroApp && window.neuroApp.exportStudentReport('markdown')">
+              📄 Download Markdown
+            </button>
+          </div>
+        </div>
+
+        <!-- Privacy & Non-Evaluative Assurance Banner -->
+        <div class="panel glass-panel" style="padding: 12px 16px; margin-bottom: 16px; border-left: 4px solid #10b981; background: rgba(16, 185, 129, 0.08);">
+          <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 16px;">🛡️</span>
+              <strong style="color: #34d399; font-size: 12px;">Reflective & Privacy-First Architecture</strong>
+              <span style="font-size: 11px; color: #94a3b8;">• Zero Peer Comparisons • No Class Rankings • No Grades Assigned</span>
+            </div>
+            <div style="display: flex; gap: 6px;">
+              <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; font-size: 10px; padding: 2px 6px; border-radius: 6px;">100% Edge Private</span>
+              <span class="badge" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; font-size: 10px; padding: 2px 6px; border-radius: 6px;">Salted Pseudonym</span>
+            </div>
+          </div>
+          <p style="margin: 6px 0 0 0; font-size: 11px; color: #cbd5e1; line-height: 1.4;">
+            This summary is designed exclusively for your self-directed growth and learning self-awareness. Your engagement timeline highlights when focus flowed easily and when attention wandered, offering constructive cues to optimize study stamina.
+          </p>
+        </div>
+
+        <!-- 3-Column Top Metrics Row -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 16px;">
+          
+          <!-- Column 1: Attendance & Active Duration -->
+          <div class="panel glass-panel" style="padding: 14px; border-top: 3px solid #3b82f6;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-size: 12px; color: #94a3b8; font-weight: 600;">⏱️ Attendance & Active Duration</span>
+              <span id="stuAttStatusBadge" class="badge" style="background: rgba(59, 130, 246, 0.2); color: #60a5fa; font-size: 10px; padding: 2px 6px; border-radius: 6px;">PRESENT</span>
+            </div>
+            <div style="margin-bottom: 6px;">
+              <span id="stuActiveDuration" style="font-size: 24px; font-weight: 800; color: #f8fafc;">28m 45s</span>
+              <span id="stuPresenceRatio" style="font-size: 12px; color: #38bdf8; margin-left: 6px;">(95.8% attended)</span>
+            </div>
+            <div style="font-size: 11px; color: #94a3b8; display: flex; flex-direction: column; gap: 3px;">
+              <div>First Detected: <span id="stuFirstSeen" style="color: #cbd5e1;">10:00:12 AM</span></div>
+              <div>Audit Proof: <span id="stuAuditProof" style="font-family: monospace; color: #a5b4fc; font-size: 10px;">sha256-a19f...</span></div>
+            </div>
+          </div>
+
+          <!-- Column 2: Engagement Consistency Score -->
+          <div class="panel glass-panel" style="padding: 14px; border-top: 3px solid #10b981;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-size: 12px; color: #94a3b8; font-weight: 600;">📈 Engagement Consistency</span>
+              <span id="stuConsistencyBadge" class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; font-size: 10px; padding: 2px 6px; border-radius: 6px;">HIGHLY_STEADY</span>
+            </div>
+            <div style="margin-bottom: 6px;">
+              <span id="stuConsistencyScore" style="font-size: 24px; font-weight: 800; color: #34d399;">88.2%</span>
+              <span style="font-size: 11px; color: #94a3b8; margin-left: 6px;">stability index</span>
+            </div>
+            <p id="stuConsistencyDesc" style="margin: 0; font-size: 11px; color: #cbd5e1; line-height: 1.3;">
+              Your attention remained exceptionally steady throughout the learning segments.
+            </p>
+          </div>
+
+          <!-- Column 3: Focus Zone Ratio -->
+          <div class="panel glass-panel" style="padding: 14px; border-top: 3px solid #8b5cf6;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <span style="font-size: 12px; color: #94a3b8; font-weight: 600;">🎯 Focus Flow Breakdown</span>
+              <span style="font-size: 11px; color: #c084fc;">High Focus vs Distraction</span>
+            </div>
+            
+            <!-- Focus Ratio Progress Bar -->
+            <div style="display: flex; height: 10px; border-radius: 5px; overflow: hidden; margin: 8px 0; background: rgba(255,255,255,0.05);">
+              <div id="stuBarHighFocus" style="width: 70%; background: #10b981;" title="High Focus (>75%)"></div>
+              <div id="stuBarBalanced" style="width: 20%; background: #3b82f6;" title="Balanced Processing (50-75%)"></div>
+              <div id="stuBarDistraction" style="width: 10%; background: #f59e0b;" title="Distraction / Wandering (<50%)"></div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; font-size: 11px;">
+              <span style="color: #34d399;">🌟 High Focus: <strong id="stuHighFocusPct">70%</strong></span>
+              <span style="color: #60a5fa;">⚖️ Balanced: <strong id="stuBalancedPct">20%</strong></span>
+              <span style="color: #fbbf24;">💭 Wander: <strong id="stuDistractPct">10%</strong></span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Timeline Section: High Focus and Distraction Episodes -->
+        <div class="panel glass-panel" style="padding: 16px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 16px;">📊</span>
+              <strong style="color: #f1f5f9; font-size: 13px;">Engagement Timeline & Focus Periods</strong>
+              <span class="badge" style="background: rgba(59, 130, 246, 0.15); color: #60a5fa; font-size: 10px; padding: 2px 6px; border-radius: 6px;">Granular PersonMetric Stream</span>
+            </div>
+            <div style="font-size: 11px; color: #94a3b8;">
+              <span style="display: inline-block; width: 8px; height: 8px; background: #10b981; border-radius: 50%; margin-right: 4px;"></span>High Focus (&gt;75%)
+              <span style="display: inline-block; width: 8px; height: 8px; background: #f59e0b; border-radius: 50%; margin-left: 8px; margin-right: 4px;"></span>Wander (&lt;50%)
+            </div>
+          </div>
+
+          <!-- Structured Focus Episodes List -->
+          <div id="stuFocusPeriodsList" style="display: flex; flex-direction: column; gap: 8px; max-height: 220px; overflow-y: auto;">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+
+        <!-- 2-Column: Notable Trends & Reflective Growth Prompts -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+          
+          <!-- Left: Notable Activity Trends -->
+          <div class="panel glass-panel" style="padding: 14px;">
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+              <span style="font-size: 14px;">💡</span>
+              <strong style="color: #f1f5f9; font-size: 12px;">Notable Activity Trends (Observable Data)</strong>
+            </div>
+            <div id="stuNotableTrendsList" style="display: flex; flex-direction: column; gap: 8px; font-size: 11px;">
+              <!-- Trends rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Right: Reflective Prompts & Accountability Takeaways -->
+          <div class="panel glass-panel" style="padding: 14px; border-left: 3px solid #8b5cf6;">
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+              <span style="font-size: 14px;">🌱</span>
+              <strong style="color: #f1f5f9; font-size: 12px;">Self-Reflection & Accountability Takeaways</strong>
+            </div>
+            <div style="background: rgba(139, 92, 246, 0.1); padding: 8px 12px; border-radius: 6px; margin-bottom: 8px;">
+              <span style="font-size: 10px; color: #c084fc; font-weight: 700; text-transform: uppercase;">Core Observation:</span>
+              <p id="stuPrimaryTakeaway" style="margin: 2px 0 0 0; font-size: 11px; color: #e2e8f0; line-height: 1.3;">
+                You demonstrated strong concentration flow during key concepts. Reflect on what study habits or seat positioning supported this focus.
+              </p>
+            </div>
+            <div id="stuQuestionsList" style="display: flex; flex-direction: column; gap: 6px; font-size: 11px;">
+              <!-- Reflection questions rendered dynamically -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Cohort Reflective Overview (Privacy-Safe & Unranked) -->
+        <div class="panel glass-panel" style="padding: 14px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <span style="font-size: 14px;">👥</span>
+              <strong style="color: #cbd5e1; font-size: 12px;">Enrolled Learners Reflective Overview (Unranked Roster)</strong>
+            </div>
+            <span style="font-size: 10px; color: #94a3b8;">Sorted strictly by desk seat • Never ranked by score</span>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 11px; text-align: left;">
+              <thead>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); color: #94a3b8;">
+                  <th style="padding: 6px 8px;">Learner</th>
+                  <th style="padding: 6px 8px;">Seat</th>
+                  <th style="padding: 6px 8px;">Active Duration</th>
+                  <th style="padding: 6px 8px;">Consistency</th>
+                  <th style="padding: 6px 8px;">High Focus</th>
+                  <th style="padding: 6px 8px;">Notable Observation</th>
+                  <th style="padding: 6px 8px;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="stuCohortTableBody">
+                <!-- Cohort rows rendered dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL 13: Activity 6.1 Run Core Application & Pipeline Verification Modal -->
+  <div id="coreAppModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-container" style="max-width: 1020px; width: 95%;">
+      <div class="modal-header">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="badge" style="background: rgba(139, 92, 246, 0.2); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.4); font-size: 10px; padding: 2px 8px; border-radius: 12px; font-weight: 700;">EPIC 6 • Activity 6.1</span>
+            <span style="font-size: 11px; color: #94a3b8;">Core Application & Pipeline Execution</span>
+          </div>
+          <h2 style="margin: 4px 0 0 0; font-size: 18px; color: #f8fafc; display: flex; align-items: center; gap: 8px;">
+            ⚡ Core Application Pipeline Verification & Ingestion Control
+          </h2>
+          <p style="margin: 2px 0 0 0; font-size: 12px; color: #94a3b8;">
+            Validates overall functionality, robustness, and synchronous data flow across Vision, Audio, Fusion, Scoring, and Analytics in a local offline environment.
+          </p>
+        </div>
+        <button class="btn-close" onclick="window.neuroApp && window.neuroApp.closeCoreAppModal()" title="Close Modal">&times;</button>
+      </div>
+
+      <div class="modal-body" style="padding: 16px; max-height: 80vh; overflow-y: auto;">
+        
+        <!-- Multi-Source Ingestion Controller Card -->
+        <div class="panel glass-panel" style="padding: 14px 18px; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 16px;">🎥</span>
+              <h3 style="margin: 0; font-size: 14px; color: #f1f5f9; font-weight: 600;">Multi-Source Stream Ingestion Hub</h3>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 11px; color: #94a3b8;">Active Source:</span>
+              <span id="activeSourceBadgeModal" class="badge" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); font-size: 11px; font-weight: 700; text-transform: uppercase;">SIMULATED</span>
+            </div>
+          </div>
+
+          <!-- Ingestion Sources Grid -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+            
+            <!-- Source 1: Simulated Smart Classroom -->
+            <div id="sourceCardSimulated" class="panel" style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 8px; padding: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                  <div style="font-size: 13px; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 6px;">
+                    <span>🏫</span> High-Fidelity Simulator
+                  </div>
+                  <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">
+                    Synthetic 8-student classroom layout with dynamic head poses, gaze shifts & intermittent walk-by entities.
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 10px; color: #64748b;">Target: 640x480 @ 15 FPS</span>
+                <button class="btn btn-secondary btn-sm" onclick="window.neuroApp && window.neuroApp.switchVideoSourceActivity61('simulated')" style="font-size: 11px; padding: 3px 10px;">
+                  Select Simulated
+                </button>
+              </div>
+            </div>
+
+            <!-- Source 2: Pre-Recorded Classroom Video -->
+            <div id="sourceCardFile" class="panel" style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 8px; padding: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                  <div style="font-size: 13px; font-weight: 700; color: #c084fc; display: flex; align-items: center; gap: 6px;">
+                    <span>🎬</span> Pre-Recorded Classroom Video
+                  </div>
+                  <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">
+                    Local MP4 video ingestion with automatic looping at EOF and synchronous audio alignment.
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 10px; color: #64748b;">File: classroom_lecture_sample.mp4</span>
+                <button class="btn btn-purple-glow btn-sm" onclick="window.neuroApp && window.neuroApp.switchVideoSourceActivity61('file')" style="font-size: 11px; padding: 3px 10px;">
+                  Select Pre-Recorded
+                </button>
+              </div>
+            </div>
+
+            <!-- Source 3: Live Hardware Webcam -->
+            <div id="sourceCardWebcam" class="panel" style="background: rgba(30, 41, 59, 0.7); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 8px; padding: 12px;">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                  <div style="font-size: 13px; font-weight: 700; color: #34d399; display: flex; align-items: center; gap: 6px;">
+                    <span>📹</span> Live Webcam Feed
+                  </div>
+                  <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">
+                    Direct camera device capture (Index 0) with automatic seamless fallback to simulated scene if camera offline.
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 10px; color: #64748b;">DirectShow / OpenCV Backend</span>
+                <button class="btn btn-emerald-glow btn-sm" onclick="window.neuroApp && window.neuroApp.switchVideoSourceActivity61('webcam')" style="font-size: 11px; padding: 3px 10px;">
+                  Select Webcam
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 5-Module Synchronous Data Flow Pipeline Card -->
+        <div class="panel glass-panel" style="padding: 14px 18px; margin-bottom: 16px;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 14px;">
+            <span style="font-size: 16px;">🔄</span>
+            <h3 style="margin: 0; font-size: 14px; color: #f1f5f9; font-weight: 600;">Integrated 5-Module Data Flow Pipeline</h3>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px;">
+            
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 8px; padding: 10px; text-align: center;">
+              <div style="font-size: 18px; margin-bottom: 4px;">👁️</div>
+              <div style="font-size: 12px; font-weight: 700; color: #38bdf8;">1. Vision Processing</div>
+              <div style="font-size: 10px; color: #94a3b8; margin-top: 4px;">Face Detection, Centroid Tracking, Gaze & Head Pose, Sustained Roll Call</div>
+              <div id="pipeMod1Status" style="margin-top: 6px; font-size: 10px; color: #34d399; font-weight: 600;">READY</div>
+            </div>
+
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; padding: 10px; text-align: center;">
+              <div style="font-size: 18px; margin-bottom: 4px;">🎙️</div>
+              <div style="font-size: 12px; font-weight: 700; color: #fbbf24;">2. Audio Analysis</div>
+              <div style="font-size: 10px; color: #94a3b8; margin-top: 4px;">Acoustic Waveforms, Decibel SPL, VAD, 3-Tier Speech State & Rhythm</div>
+              <div id="pipeMod2Status" style="margin-top: 6px; font-size: 10px; color: #34d399; font-weight: 600;">READY</div>
+            </div>
+
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 8px; padding: 10px; text-align: center;">
+              <div style="font-size: 18px; margin-bottom: 4px;">🎛️</div>
+              <div style="font-size: 12px; font-weight: 700; color: #c084fc;">3. Multimodal Fusion</div>
+              <div style="font-size: 10px; color: #94a3b8; margin-top: 4px;">Synchronized Epochs, Cross-Modal Correlation, Dominant Modality Weighting</div>
+              <div id="pipeMod3Status" style="margin-top: 6px; font-size: 10px; color: #34d399; font-weight: 600;">READY</div>
+            </div>
+
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 8px; padding: 10px; text-align: center;">
+              <div style="font-size: 18px; margin-bottom: 4px;">📈</div>
+              <div style="font-size: 12px; font-weight: 700; color: #34d399;">4. Engagement Scoring</div>
+              <div style="font-size: 10px; color: #94a3b8; margin-top: 4px;">Rule-Based Multi-Factor Evaluation, Predefined Thresholds & Temporal Profiles</div>
+              <div id="pipeMod4Status" style="margin-top: 6px; font-size: 10px; color: #34d399; font-weight: 600;">READY</div>
+            </div>
+
+            <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(236, 72, 153, 0.3); border-radius: 8px; padding: 10px; text-align: center;">
+              <div style="font-size: 18px; margin-bottom: 4px;">💡</div>
+              <div style="font-size: 12px; font-weight: 700; color: #f472b6;">5. Analytics & Recs</div>
+              <div style="font-size: 10px; color: #94a3b8; margin-top: 4px;">Instructor Teaching Suggestions & Reflective Student Session Analytics</div>
+              <div id="pipeMod5Status" style="margin-top: 6px; font-size: 10px; color: #34d399; font-weight: 600;">READY</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Verification Execution Controls & Live Audit Card -->
+        <div class="panel glass-panel" style="padding: 14px 18px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 12px;">
+            <div>
+              <h3 style="margin: 0; font-size: 14px; color: #f1f5f9; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                <span>🧪</span> End-to-End Pipeline Verification Engine
+              </h3>
+              <p style="margin: 2px 0 0 0; font-size: 11px; color: #94a3b8;">
+                Executes multi-frame verification across all modules and measures synchronous throughput.
+              </p>
+            </div>
+
+            <!-- Execution Options & Trigger Button -->
+            <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <label for="verifSourceSelect" style="font-size: 11px; color: #94a3b8;">Source:</label>
+                <select id="verifSourceSelect" class="styled-select" style="font-size: 11px; padding: 4px 8px;">
+                  <option value="simulated">Simulated Classroom</option>
+                  <option value="file">Pre-Recorded Video</option>
+                  <option value="webcam">Webcam (with Fallback)</option>
+                </select>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <label for="verifFrameCount" style="font-size: 11px; color: #94a3b8;">Frames:</label>
+                <select id="verifFrameCount" class="styled-select" style="font-size: 11px; padding: 4px 8px;">
+                  <option value="3">3 Frames</option>
+                  <option value="5" selected>5 Frames</option>
+                  <option value="10">10 Frames</option>
+                </select>
+              </div>
+
+              <button id="runVerifBtn" class="btn btn-accent-glow" onclick="window.neuroApp && window.neuroApp.triggerPipelineVerification()" style="font-size: 12px; padding: 6px 14px; font-weight: 700;">
+                ⚡ Run Pipeline Verification
+              </button>
+            </div>
+          </div>
+
+          <!-- Audit Results Summary Banner -->
+          <div id="verifResultsContainer" style="display: none;">
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 14px;">
+              <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 6px; padding: 10px; text-align: center;">
+                <div style="font-size: 10px; color: #94a3b8; font-weight: 600;">OVERALL STATUS</div>
+                <div id="verifStatusText" style="font-size: 16px; font-weight: 800; color: #34d399; margin-top: 2px;">SUCCESS</div>
+              </div>
+              <div style="background: rgba(56, 189, 248, 0.15); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 6px; padding: 10px; text-align: center;">
+                <div style="font-size: 10px; color: #94a3b8; font-weight: 600;">THROUGHPUT</div>
+                <div id="verifFpsText" style="font-size: 16px; font-weight: 800; color: #38bdf8; margin-top: 2px;">18.5 FPS</div>
+              </div>
+              <div style="background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 6px; padding: 10px; text-align: center;">
+                <div style="font-size: 10px; color: #94a3b8; font-weight: 600;">ELAPSED TIME</div>
+                <div id="verifElapsedText" style="font-size: 16px; font-weight: 800; color: #c084fc; margin-top: 2px;">0.27 sec</div>
+              </div>
+              <div style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 6px; padding: 10px; text-align: center;">
+                <div style="font-size: 10px; color: #94a3b8; font-weight: 600;">FRAMES TESTED</div>
+                <div id="verifFramesText" style="font-size: 16px; font-weight: 800; color: #fbbf24; margin-top: 2px;">5 / 5</div>
+              </div>
+            </div>
+
+            <!-- Per-Module Verification Table -->
+            <div style="overflow-x: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 11px; text-align: left;">
+                <thead>
+                  <tr style="border-bottom: 1px solid rgba(148, 163, 184, 0.2); color: #94a3b8;">
+                    <th style="padding: 6px 8px;">Module</th>
+                    <th style="padding: 6px 8px;">Status</th>
+                    <th style="padding: 6px 8px;">Evidence & Metrics</th>
+                    <th style="padding: 6px 8px;">Verification Summary</th>
+                  </tr>
+                </thead>
+                <tbody id="verifModulesTableBody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Raw Verification Audit JSON Accordion -->
+            <details style="margin-top: 14px; background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 6px; padding: 8px 12px;">
+              <summary style="font-size: 11px; color: #94a3b8; cursor: pointer; font-weight: 600;">
+                View Raw Activity 6.1 Verification Audit JSON
+              </summary>
+              <pre id="verifRawJsonPre" style="font-size: 10px; color: #cbd5e1; margin-top: 8px; overflow-x: auto; max-height: 200px;"></pre>
+            </details>
+
+          </div>
+
+          <!-- Loading Indicator -->
+          <div id="verifLoadingIndicator" style="display: none; padding: 24px; text-align: center;">
+            <div class="spinner" style="margin: 0 auto 10px auto; width: 28px; height: 28px; border: 3px solid rgba(139, 92, 246, 0.2); border-top-color: #c084fc; border-radius: 50%; animation: spin 0.8s linear infinite;"></div>
+            <div style="font-size: 12px; color: #94a3b8;">Executing synchronous multi-module pipeline verification across Vision, Audio, Fusion, Scoring & Analytics...</div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  <!-- 3-Way Hybrid Student Enrollment & Webcam Linking Modal -->
+  <div id="identifyModal" class="modal-backdrop" style="display: none;">
+    <div class="modal-container" style="max-width: 580px; width: 92%;">
+      <div class="modal-header">
+        <div>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); font-size: 10px; padding: 2px 8px; border-radius: 12px; font-weight: 700;">HYBRID ENROLLMENT</span>
+            <span style="font-size: 11px; color: #94a3b8;">Biometric Identity Linking</span>
+          </div>
+          <h2 style="margin: 4px 0 0 0; font-size: 18px; color: #f8fafc; display: flex; align-items: center; gap: 8px;">
+            🎯 Identify &amp; Link Live Learner
+          </h2>
+          <p style="margin: 2px 0 0 0; font-size: 12px; color: #94a3b8;">
+            Link webcam track <span id="identifyTrackBadge" style="font-family: monospace; font-weight: bold; color: #38bdf8;">TRK-000</span> to an existing student or enroll a new student into the class database with zero lost attendance time.
+          </p>
+        </div>
+        <button class="btn-close" onclick="window.neuroApp &amp;&amp; window.neuroApp.closeIdentifyModal()" title="Close Modal">&times;</button>
+      </div>
+
+      <div class="modal-body" style="padding: 16px; max-height: 80vh; overflow-y: auto;">
+        
+        <!-- Live Face Crop Preview -->
+        <div style="display: flex; gap: 16px; align-items: center; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 8px; padding: 12px; margin-bottom: 16px;">
+          <div style="position: relative; width: 84px; height: 84px; border-radius: 8px; overflow: hidden; background: #0f172a; border: 2px solid #38bdf8; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+            <img id="identifyFaceCropImg" src="" alt="Live Face" style="width: 100%; height: 100%; object-fit: cover; display: none;" />
+            <div id="identifyFaceCropFallback" style="font-size: 28px;">👤</div>
+          </div>
+          <div>
+            <div style="font-size: 13px; font-weight: 700; color: #f1f5f9;">Live Webcam Detection</div>
+            <div style="font-size: 11px; color: #94a3b8; margin-top: 2px;">
+              Active Tracker ID: <span id="identifyModalTrackId" style="color: #38bdf8; font-weight: 600;">TRK-000</span>
+            </div>
+            <div style="font-size: 10px; color: #64748b; margin-top: 4px;">
+              This face crop will automatically be enrolled in <code style="color: #cbd5e1;">student_db/</code> for immediate instant recognition.
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode Selection Tabs -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px;">
+          <button id="tabLinkExisting" type="button" class="btn btn-secondary" onclick="window.neuroApp &amp;&amp; window.neuroApp.setIdentifyMode('existing')" style="font-size: 12px; padding: 8px; font-weight: 600; border-color: #38bdf8; background: rgba(56, 189, 248, 0.15); color: #38bdf8;">
+            Option A: Link Existing Student
+          </button>
+          <button id="tabEnrollNew" type="button" class="btn btn-secondary" onclick="window.neuroApp &amp;&amp; window.neuroApp.setIdentifyMode('new')" style="font-size: 12px; padding: 8px; font-weight: 600;">
+            Option B: Enroll New Student
+          </button>
+        </div>
+
+        <!-- Option A: Link Existing Student Form -->
+        <div id="sectionLinkExisting" style="display: block;">
+          <div style="margin-bottom: 14px;">
+            <label for="existingStudentSelect" style="display: block; font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 6px;">Select Enrolled Student:</label>
+            <select id="existingStudentSelect" class="styled-select" style="width: 100%; padding: 8px 10px; font-size: 13px; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(148, 163, 184, 0.3); border-radius: 6px; color: #f8fafc;">
+              <option value="">-- Choose a student from database --</option>
+            </select>
+            <div style="font-size: 11px; color: #64748b; margin-top: 4px;">
+              Associates this live face crop with the selected student. Their presence time and attention history will be merged.
+            </div>
+          </div>
+        </div>
+
+        <!-- Option B: Enroll New Student Form -->
+        <div id="sectionEnrollNew" style="display: none;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+            <div>
+              <label for="newStudentId" style="display: block; font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 4px;">Student ID:</label>
+              <input type="text" id="newStudentId" placeholder="e.g. STU-109" class="styled-input" style="width: 100%; padding: 7px 10px; font-size: 12px; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(148, 163, 184, 0.3); border-radius: 6px; color: #f8fafc;" />
+            </div>
+            <div>
+              <label for="newStudentSeat" style="display: block; font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 4px;">Seat / Desk:</label>
+              <input type="text" id="newStudentSeat" placeholder="e.g. Row 1, Seat 5" class="styled-input" style="width: 100%; padding: 7px 10px; font-size: 12px; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(148, 163, 184, 0.3); border-radius: 6px; color: #f8fafc;" />
+            </div>
+          </div>
+          <div style="margin-bottom: 12px;">
+            <label for="newStudentName" style="display: block; font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 4px;">Full Name:</label>
+            <input type="text" id="newStudentName" placeholder="e.g. Maya Chen" class="styled-input" style="width: 100%; padding: 7px 10px; font-size: 12px; background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(148, 163, 184, 0.3); border-radius: 6px; color: #f8fafc;" />
+          </div>
+          <div style="margin-bottom: 14px;">
+            <label for="newStudentPhotoUpload" style="display: block; font-size: 12px; font-weight: 600; color: #cbd5e1; margin-bottom: 4px;">Optional Custom Photo Upload (JPEG/PNG):</label>
+            <input type="file" id="newStudentPhotoUpload" accept="image/jpeg,image/png" style="font-size: 11px; color: #94a3b8;" />
+            <div style="font-size: 10px; color: #64748b; margin-top: 2px;">
+              If left blank, the live webcam face crop above will be saved automatically as their biometric template.
+            </div>
+          </div>
+        </div>
+
+        <!-- Notification / Status Banner -->
+        <div id="identifyStatusBanner" style="display: none; padding: 8px 12px; border-radius: 6px; font-size: 12px; margin-bottom: 14px;"></div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px;">
+          <button type="button" class="btn btn-secondary" onclick="window.neuroApp &amp;&amp; window.neuroApp.closeIdentifyModal()" style="font-size: 12px; padding: 6px 14px;">
+            Cancel
+          </button>
+          <button id="btnSubmitIdentity" type="button" class="btn btn-primary" onclick="window.neuroApp &amp;&amp; window.neuroApp.submitIdentityLink()" style="font-size: 12px; padding: 6px 16px; font-weight: 700;">
+            ✓ Confirm &amp; Link Identity
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
+

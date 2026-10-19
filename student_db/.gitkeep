@@ -1,0 +1,2 @@
+# Biometric Face Template Directory
+# Stores enrolled face crops ({student_id}.jpg) for local biometric recognition.

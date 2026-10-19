@@ -1,0 +1,27 @@
+# Python Bytecode & Caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+.env.local
+
+# Sensitive Environment Configurations
+.env
+
+# Test & Temporary Database Artifacts
+test_intelligence_*.db
+test_intelligence.db
+*.db-journal
+*.db-wal
+
+# OS Artifacts
+Thumbs.db
+.DS_Store
+
+# Temporary Runtime / IDE Artifacts
+*.log
