@@ -89,7 +89,10 @@ class TeacherProfileService:
                                 "engagement": max(50, min(100, ei_val))
                             })
                         if real_classes:
-                            class_history = real_classes
+                            if len(real_classes) < 3:
+                                class_history = real_classes + class_history[len(real_classes):]
+                            else:
+                                class_history = real_classes
 
                     # Dynamic student trends from real students and attendance logs
                     cursor.execute("""
